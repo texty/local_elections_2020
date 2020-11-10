@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Результати місцевих виборів-2020</title>
+
+   <!-- OpenGraph Meta Tags -->
+    <meta property="fb:app_id" content="329250623807149"/>
+    <meta property="og:site_name" content="ТЕКСТИ.ORG.UA"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:title"
+          content="Результати місцевих виборів-2020"/>
+    <meta property="og:image" content="https://texty.org.ua/d/2020/....../img/cover.png"/>
+    <meta property="og:description"
+          content=""/>
+    <meta property="og:url" content="https://texty.org.ua/d/2020/...../"/>
+
+
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:site" content="@textyorgua"/>
+    <meta property="twitter:account_id" content="49572937"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:url" content="https://texty.org.ua/d/2020/...../">
+    <meta name="twitter:title"
+          content="Результати місцевих виборів-2020"/>
+    <meta name="twitter:description"
+          content=""/>
+    <meta name="twitter:image:src" content="https://texty.org.ua/d/2020/...../img/cover.png"/>
+    <meta name="twitter:image:width" content="1200"/>
+    <meta name="twitter:image:height" content="630"/>
+
+
+    <!-- Other Meta Tags -->
+    <meta name="title" content="Результати місцевих виборів-2020">
+    <meta name="description" content="">
+
+
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
+    <link rel='stylesheet' href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" />
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.0.0/mapbox-gl-geocoder.css'  type='text/css'/>
+    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+          crossorigin=""/>
+    <link rel="stylesheet" href="css/styles.css"/>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
+    <script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.0.0/mapbox-gl-geocoder.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+</head>
+<style>
+
+
+</style>
+<body>
+
+<header>
+    <a class="texty-logo" href="https://texty.org.ua/">
+        <img class="desktop-only" src="img/textylogo.svg" alt="Тексти.org.ua"/>
+    </a>
+
+    <nav class="rubrics-container">
+        <div class="rubric r1"><a href="https://texty.org.ua/theme/koronavirus-najvazhlyvishe/"><span>КОРОНАВІРУС</span></a></div>
+        <div class="rubric r2"><a href="https://texty.org.ua/tag/dezinformatsija/"><span>#Інфовійна</span></a></div>
+        <div class="rubric r3"></div>
+    </nav>
+    <div class="soc">
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://texty.org.ua/d/2020/covid-19/" target="_blank" class="share-btn">
+            <i class="fab fa-facebook-square"></i></a>
+        <a href="https://twitter.com/intent/tweet?text=https://texty.org.ua/d/2020/covid-19/" target="_blank" class="share-btn">
+            <i class="fab fa-twitter-square"></i></a>
+    </div>
+</header>
+<main>
+    <div id="title">
+        <h1>Результати місцевих виборів-2020</h1>
+        <h3></h3>
+    </div>
+
+
+    <div id="map1_wrapper" class="map_wrapper">
+
+        <!-- карта -->
+        <div id="map" class="container"></div>
+
+        <!-- спінер -->
+        <div id="loading-background" class=''>
+            <img id="spinner" src="img/wait.gif" alt="Завантаження..."/>
+        </div>
+
+        <!-- легенда -->
+        <div class="legend-wrapper">
+            <p><span><1</span>
+                <span id="legend1"></span>
+                <span>15+</span>
+            </p>
+        </div>
+
+        <!-- перемикачі -->
+        <div class="buttons" id="ukraine-switch-buttons">
+            <div class="map_button" value="MAP_infections10">ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"</div>
+            <div class="map_button" value="MAP_infections100">ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"</div>
+            <div class="map_button" value="MAP_infections500">ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"</div>
+            <div class="map_button active" value="MAP_infections1000">ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"</div>
+        </div>
+    </div>
+
+
+
+</main>
+
+<footer>
+    <div id="logo-copyright">
+        <a class="texty-logo" href="/">
+            <img class="desktop-only" src="img/white_logo.svg" alt="Тексти.org.ua"/>
+
+        </a>
+        <div class="copyright">
+            <p>&copy; 2010—2020 Texty.org.ua</p>
+        </div>
+
+        <p id="license">Матеріали ТЕКСТИ.org.ua можна використовувати згідно ліцензії <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">Creative Commons із зазначенням авторства, CC BY</a> (переклад ліцензії <a href="https://creativecommons.org/licenses/by/4.0/legalcode.uk" target="_blank">українською</a>). Велике прохання ставити гіперпосилання в першому чи другому абзаці вашого матеріалу.</p>
+    </div>
+
+    <div id="guide-block">
+        <ul class="links1">
+            <li><a href="https://texty.org.ua/articles/">Статті</a>
+                <a href="https://texty.org.ua/articles/feed.xml">(RSS)</a>
+            </li>
+            <li><a href="https://texty.org.ua/fragments/">Фрагменти</a>
+                <a href="https://texty.org.ua/fragments/feed.xml">(RSS)</a>
+            </li>
+            <li><a href="https://texty.org.ua/projects">Журналістика даних</a></li>
+            <li><a href="https://texty.org.ua/d/socio">Фальшиві соціологи</a></li>
+        </ul>
+
+        <ul class="links2">
+            <li><a href="https://fgz.texty.org/">Фейкогриз</a></li>
+            <li><a href="https://texty.org.ua/tag/dezinformatsija/">Дезінформація</a></li>
+            <li><a href="https://texty.org.ua/tag/eng/">#English</a></li>
+            <li><a href="https://texty.org.ua/archive-books/">Архів книг</a></li>
+        </ul>
+
+        <ul class="links3">
+            <li><a href="https://texty.org.ua/support" target="_blank">Підтримай нас!</a></li>
+            <li><a href="http://texty.org.ua/donate/#/" target="_blank" >Наш дата-арт</a></li>
+            <li><a href="https://texty.org.ua/tag/hrafik-dnja/">Графік Дня</a></li>
+            <li><a href="https://texty.org.ua/archive-blogs/">Архів блогів</a></li>
+        </ul>
+    </div>
+
+
+    <div id="social_buttons">
+        <p class="piece-title">Стежити:</p>
+        <a href="https://www.facebook.com/TEXTY.org.ua/" target="_blank">
+            <img src="img/facebook.png" alt="Тексти.org.ua - Facebook">
+        </a>
+        <a href="https://www.instagram.com/texty.org.ua/" target="_blank">
+            <img src="img/instagram.png" alt="Тексти.org.ua - Instagram">
+        </a>
+        <a href="https://telegram.me/textyorgua" target="_blank">
+            <img src="img/telegram.png" alt="Тексти.org.ua - Telegram">
+        </a>
+        <a href="https://twitter.com/textyorgua" target="_blank">
+            <img src="img/twitter.png" alt="Тексти.org.ua - Twitter">
+        </a>
+    </div>
+</footer>
+
+<script src="lib/d3v5.min.js"></script>
+<script src="js/map.js"></script>
+
+
+</body>
+</html>
