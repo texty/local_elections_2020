@@ -386,4 +386,12 @@ option {
 .mapboxgl-popup-close-button {
   display: none; }
 
+.js-example-basic-single {
+  margin: auto; }
+
+.select2 {
+  width: 80% !important;
+  display: block !important;
+  margin: auto !important; }
+
 /*# sourceMappingURL=styles.css.map */

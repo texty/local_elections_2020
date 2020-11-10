@@ -24,7 +24,7 @@ var map = new mapboxgl.Map({
     hash: false,
     tap: false,
     attributionControl: false,
-    style: 'https://raw.githubusercontent.com/texty/covid_leisure/main/dark_matter.json',
+    style: 'dark_matter.json',
     center: [31.5, 48.5],
     zoom: default_zoom_u // starting zoom
 });
@@ -54,7 +54,7 @@ map.on('load', function () {
     //векторні тайли
     map.addSource('schools', {
         type: 'vector',
-        tiles: ["https://texty.github.io/covid_leisure/tiles/{z}/{x}/{y}.pbf"]
+        tiles: ["https://texty.github.io/local_elections_2020/tiles/{z}/{x}/{y}.pbf"]
     });
 
 
@@ -65,7 +65,7 @@ map.on('load', function () {
             'minzoom': 4,
             'maxzoom': 10,
             'source': "schools",
-            "source-layer": "covid_leisure_4326",
+            "source-layer": "local_elections_4326",
             "paint": {
                 'fill-color': {
                     property: choropleth_column,
@@ -83,21 +83,21 @@ map.on('load', function () {
         }, firstSymbolId);
 
 
-        map.on('click', 'schools_data', function(e) {
-            map.getCanvas().style.cursor = 'pointer';
-            popup =  new mapboxgl.Popup()
-                .setLngLat(e.lngLat)
-                .setHTML(e.features[0].properties.MAP_registration_region + ": " + e.features[0].properties[choropleth_column])
-                .addTo(map);
-
-            if(e.features[0].properties.MAP_infections1000 >= 0){
-                popup.setHTML(e.features[0].properties.MAP_registration_region + ": " + e.features[0].properties[choropleth_column])
-
-            } else {
-                popup.setHTML(e.features[0].properties.MAP_registration_region + ": немає даних");
-            }
-
-        });
+        // map.on('click', 'schools_data', function(e) {
+        //     map.getCanvas().style.cursor = 'pointer';
+        //     popup =  new mapboxgl.Popup()
+        //         .setLngLat(e.lngLat)
+        //         .setHTML(e.features[0].properties.MAP_registration_region + ": " + e.features[0].properties[choropleth_column])
+        //         .addTo(map);
+        //
+        //     if(e.features[0].properties.MAP_infections1000 >= 0){
+        //         popup.setHTML(e.features[0].properties.MAP_registration_region + ": " + e.features[0].properties[choropleth_column])
+        //
+        //     } else {
+        //         popup.setHTML(e.features[0].properties.MAP_registration_region + ": немає даних");
+        //     }
+        //
+        // });
 
 
     }
@@ -112,7 +112,15 @@ map.on('load', function () {
 
 
 
-    redrawUkraineMap('MAP_infections1000');
+    redrawUkraineMap('results_ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"');
+
+
+    $("#select_party").on("change", function(){
+        let selected = $("#select_party").val();
+        //console.log(selected)
+        map.removeLayer('schools_data');
+        redrawUkraineMap(selected);
+    });
 
     /* перемикаємо шари  карти */
     d3.select("#ukraine-switch-buttons").selectAll(".map_button").on("click", function() {

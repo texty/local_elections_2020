@@ -52,6 +52,9 @@
     <script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.0.0/mapbox-gl-geocoder.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 </head>
 <style>
 
@@ -85,6 +88,13 @@
 
     <div id="map1_wrapper" class="map_wrapper">
 
+            <select id="select_party" class="js-example-basic-single" name="state">
+                <option class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"'>ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"</option>
+                <option class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"'>ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"</option>
+                <option class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"'>ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"</option>
+                <option class="map_button active" value='results_ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"'>ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"</option>
+            </select>
+
         <!-- карта -->
         <div id="map" class="container"></div>
 
@@ -102,17 +112,22 @@
         </div>
 
         <!-- перемикачі -->
-        <div class="buttons" id="ukraine-switch-buttons">
-            <div class="map_button" value="MAP_infections10">ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"</div>
-            <div class="map_button" value="MAP_infections100">ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"</div>
-            <div class="map_button" value="MAP_infections500">ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"</div>
-            <div class="map_button active" value="MAP_infections1000">ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"</div>
-        </div>
+        <!--<div class="buttons" id="ukraine-switch-buttons">-->
+            <!--<div class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"'>ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"</div>-->
+            <!--<div class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"'>ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"</div>-->
+            <!--<div class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"'>ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"</div>-->
+            <!--<div class="map_button active" value='results_ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"'>ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"</div>-->
+        <!--</div>-->
     </div>
-
-
-
 </main>
+
+<script>
+    $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+    });
+
+
+</script>
 
 <footer>
     <div id="logo-copyright">
