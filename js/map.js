@@ -105,6 +105,8 @@ map.on('load', function () {
                  "yellow",
                  'NA',
                  'transparent',
+                 'multiple',
+                 '#3c3c3c',
                  "silver"
                 ],
 
