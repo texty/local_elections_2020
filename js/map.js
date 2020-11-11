@@ -119,43 +119,60 @@ map.on('load', function () {
 
 
         map.on('click', 'schools_data', function(e) {
-            let win_parties = [];
-            Object.keys(e.features[0].properties).forEach(function(key) {
-                let dep_amount = e.features[0].properties[key];
-                if(dep_amount > 0 && key.includes("results")){
-                    win_parties.push({"party": key.replace("results_", ""), "amount": dep_amount})
-                }
-            });
+            console.log(e.features[0].properties);
+            if(e.features[0].properties["results_hromada_name"] === 'NA') {
+                map.getCanvas().style.cursor = 'pointer';
+                $('.mapboxgl-popup').remove();
+                popup = new mapboxgl.Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML("Немає даних")
+                    .addTo(map);
 
-            win_parties.sort(function(a,b){
-                return d3.descending(a.amount, b.amount)
-            });
+            } else {
+                /* даємо в тултіп перелік партй, які увійшли до рад*/
+                let win_parties = [];
 
-
-            function showPopUp () {
-                var html = '';
-                html += "<table>";
-                win_parties.forEach(function(d){
-                    html += " <tr>";
-                    html += "  <td>";
-                    html += d.party;
-                    html += "  </td>";
-                    html += "  <td>";
-                    html += d.amount;
-                    html += "  </td>";
-                    html += " </tr>";
+                /* проходимось по кожній партії, якщо більше 0 депутатів*/
+                Object.keys(e.features[0].properties).forEach(function(key) {
+                    let dep_amount = e.features[0].properties[key];
+                    if(dep_amount > 0 && key.includes("results")){
+                        win_parties.push({"party": key.replace("results_", ""), "amount": dep_amount})
+                    }
                 });
-                html += "</table>";
-                return html;
+
+                win_parties.sort(function(a,b){
+                    return d3.descending(a.amount, b.amount)
+                });
+
+
+                function showPopUp () {
+                    var html = '';
+                    html += "<table>";
+                    win_parties.forEach(function(d){
+                        html += " <tr>";
+                        html += "  <td>";
+                        html += d.party;
+                        html += "  </td>";
+                        html += "  <td>";
+                        html += d.amount;
+                        html += "  </td>";
+                        html += " </tr>";
+                    });
+                    html += "</table>";
+                    return html;
+                }
+
+
+                map.getCanvas().style.cursor = 'pointer';
+                $('.mapboxgl-popup').remove();
+                popup = new mapboxgl.Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML(showPopUp())
+                    .addTo(map);
+
             }
 
 
-            map.getCanvas().style.cursor = 'pointer';
-            $('.mapboxgl-popup').remove();
-            popup = new mapboxgl.Popup()
-                .setLngLat(e.lngLat)
-                .setHTML(showPopUp())
-                .addTo(map);
         });
     }
 
