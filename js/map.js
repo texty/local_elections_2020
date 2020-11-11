@@ -15,7 +15,6 @@ var stops_values = [
 ];
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHJpbWFjdXMxODIiLCJhIjoiWGQ5TFJuayJ9.6sQHpjf_UDLXtEsz8MnjXw';
-
 var map = new mapboxgl.Map({
     container: 'map',
     minZoom: default_zoom_u,
@@ -28,11 +27,8 @@ var map = new mapboxgl.Map({
     zoom: default_zoom_u // starting zoom
 });
 
-
-
 map.scrollZoom.disable();
 
-var popup;
 
 d3.csv("data/local_elections_parties_list.csv").then(function(parties_list){
     parties_list.forEach(function(d){
@@ -56,6 +52,11 @@ d3.csv("data/local_elections_parties_list.csv").then(function(parties_list){
 
 
 
+
+
+
+var popup;
+
 /* ------- карта України ------- */
 map.on('load', function () {
 
@@ -76,6 +77,62 @@ map.on('load', function () {
         type: 'vector',
         tiles: ["https://texty.github.io/local_elections_2020/tiles/otg/{z}/{x}/{y}.pbf"]
     });
+
+    //векторні тайли
+    map.addSource('oblasts', {
+        type: 'vector',
+        tiles: ["https://texty.github.io/local_elections_2020/tiles/oblasts/{z}/{x}/{y}.pbf"]
+    });
+
+    function drawOblasts(){
+
+        map.addLayer({
+            "id": "oblasts_data",
+            'type': 'fill',
+            'minzoom': 4,
+            'maxzoom': 10,
+            'source': "oblasts",
+            "source-layer": "local_elections_oblasts_4326",
+            'layout': {},
+            'paint': {
+                'fill-color': [
+                    "match",
+                    ["get", "oblasts_max_party"],
+                    'ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"',
+                    "#d53e4f",
+                    'ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"',
+                    "#33a02c",
+                    'ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"',
+                    "#3288bd",
+                    'політична партія Всеукраїнське об’єднання "Батьківщина"',
+                    "#fdae61",
+                    'ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"',
+                    "#7570b3",
+                    'Самовисування',
+                    "yellow",
+                    'NA',
+                    'transparent',
+                    'multiple',
+                    '#4d4d4d',
+                    "silver"
+                ],
+                "fill-opacity": 0.8,
+
+                'fill-outline-color': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    "grey",
+                    "lightgrey"
+                ]
+            }
+        }, firstSymbolId);
+
+
+
+
+
+    }
+
 
 
     function drawTotal() {
@@ -240,6 +297,12 @@ map.on('load', function () {
             $("#legend_2").css("display", "block");
         }
 
+    });
+
+
+    $("#show_oblasts").on("click", function(){
+        map.removeLayer('otg_data');
+        drawOblasts();
     });
 
 
