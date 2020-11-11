@@ -1,18 +1,16 @@
 /**
  * Created by yevheniia on 09.06.20.
  */
-var default_zoom_u = window.innerWidth > 800 ? 5 : 5;
+var default_zoom_u = window.innerWidth > 800 ? 6 : 5;
 
 var stops_values = [
-    [-3, 'white'],
-    [-1, '#d3d3d3'],
     [0, '#ffffff'],
-    [1, '#ffffb2'],
-    [3, '#fed976'],
-    [6, "#feb24c"],
-    [9, "#fd8d3c"],
-    [15, "#fc4e2a"],
-    [60, "#bd0026"]
+    [1, 'red'],
+    [5, '#fed976'],
+    [10, "#feb24c"],
+    [15, "#fd8d3c"],
+    [20, "#fc4e2a"],
+    [35, "#bd0026"]
 ];
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHJpbWFjdXMxODIiLCJhIjoiWGQ5TFJuayJ9.6sQHpjf_UDLXtEsz8MnjXw';
@@ -25,7 +23,7 @@ var map = new mapboxgl.Map({
     tap: false,
     attributionControl: false,
     style: 'dark_matter.json',
-    center: [31.5, 48.5],
+    center: [31.5, 48.9],
     zoom: default_zoom_u // starting zoom
 });
 
@@ -34,6 +32,26 @@ var map = new mapboxgl.Map({
 map.scrollZoom.disable();
 
 var popup;
+
+d3.csv("data/local_elections_parties_list.csv").then(function(parties_list){
+    parties_list.forEach(function(d){
+        d.dep_amount = +d.dep_amount;
+    });
+
+    let options = parties_list
+        .filter(function(d){ return d.dep_amount > 0 })
+        .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
+
+    d3.select("#select_party")
+        .selectAll("option")
+        .data(options)
+        .enter()
+        .append("option")
+        .attr("value", function(d){ return "results_"+d.party_name })
+        .text(function(d){ return d.party_name })
+
+});
+
 
 
 /* ------- карта України ------- */
@@ -83,21 +101,22 @@ map.on('load', function () {
         }, firstSymbolId);
 
 
-        // map.on('click', 'schools_data', function(e) {
-        //     map.getCanvas().style.cursor = 'pointer';
-        //     popup =  new mapboxgl.Popup()
-        //         .setLngLat(e.lngLat)
-        //         .setHTML(e.features[0].properties.MAP_registration_region + ": " + e.features[0].properties[choropleth_column])
-        //         .addTo(map);
-        //
-        //     if(e.features[0].properties.MAP_infections1000 >= 0){
-        //         popup.setHTML(e.features[0].properties.MAP_registration_region + ": " + e.features[0].properties[choropleth_column])
-        //
-        //     } else {
-        //         popup.setHTML(e.features[0].properties.MAP_registration_region + ": немає даних");
-        //     }
-        //
-        // });
+        map.on('click', 'schools_data', function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+            popup =  new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(e.features[0].properties[choropleth_column])
+                .addTo(map);
+
+            if(e.features[0].properties.MAP_infections1000 > 0){
+                popup.setHTML(e.features[0].properties[choropleth_column])
+
+            }
+            // else {
+            //     popup.setHTML(": немає даних");
+            // }
+
+        });
 
 
     }
@@ -112,7 +131,7 @@ map.on('load', function () {
 
 
 
-    redrawUkraineMap('results_ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"');
+    redrawUkraineMap('results_Самовисування');
 
 
     $("#select_party").on("change", function(){

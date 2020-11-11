@@ -37,24 +37,32 @@
 
 
 
-
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" rel="stylesheet">
-    <link rel='stylesheet' href="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.css" />
-    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.0.0/mapbox-gl-geocoder.css'  type='text/css'/>
-    <link href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap" >
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-          crossorigin=""/>
+
+
+    <script type="text/javascript" src="lib/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="lib/d3v5.min.js"></script>
+
+
+    <!-- mapbox-gl -->
+    <link rel='stylesheet' href="css/mapbox-gl.css" />
+    <script type="text/javascript" src="lib/mapbox-gl.js"></script>
+
+    <link rel='stylesheet' href='css/mapbox-gl-geocoder.css'  type='text/css'/>
+    <script type="text/javascript" src="lib/mapbox-gl-geocoder.min.js"></script>
+
+    <!-- dataTables -->
+    <!--<link rel="stylesheet" href="css/jquery.dataTables.min.css" />-->
+    <!--<script type="text/javascript" src="lib/jquery.dataTables.min.js"></script>-->
+
+    <!-- SELECT 2  -->
+    <link rel="stylesheet" href="css/select2.min.css"  />
+    <script type="text/javascript" src="lib/select2.min.js"></script>
+
+
     <link rel="stylesheet" href="css/styles.css"/>
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/v1.11.0/mapbox-gl.js"></script>
-    <script type="text/javascript" src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.0.0/mapbox-gl-geocoder.min.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 </head>
 <style>
 
@@ -88,12 +96,9 @@
 
     <div id="map1_wrapper" class="map_wrapper">
 
-            <select id="select_party" class="js-example-basic-single" name="state">
-                <option class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"'>ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"</option>
-                <option class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"'>ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"</option>
-                <option class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"'>ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"</option>
-                <option class="map_button active" value='results_ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"'>ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"</option>
-            </select>
+        <h2>Кількість депутатів</h2>
+
+        <select id="select_party" class="js-example-basic-single" name="state"></select>
 
         <!-- карта -->
         <div id="map" class="container"></div>
@@ -105,10 +110,8 @@
 
         <!-- легенда -->
         <div class="legend-wrapper">
-            <p><span><1</span>
-                <span id="legend1"></span>
-                <span>15+</span>
-            </p>
+            <div><span>0</span><span id="legend1"></span><span> 35</span>
+            </div>
         </div>
 
         <!-- перемикачі -->

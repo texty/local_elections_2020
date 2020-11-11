@@ -210,8 +210,8 @@ body {
   font-family: 'Open Sans', sans-serif; }
 
 main {
-  max-width: 1300px;
-  width: 90%;
+  max-width: 1800px;
+  width: 96%;
   margin: auto;
   color: #333; }
   @media (max-width: 400px) {
@@ -239,7 +239,7 @@ main {
 
 .container {
   width: 100%;
-  height: 70vh; }
+  height: 110vh; }
   @media (max-width: 1200px) {
     .container {
       width: 100%;
@@ -360,12 +360,14 @@ option {
   display: none; }
 
 .legend-wrapper {
-  width: 70%;
-  margin: 50px auto auto auto; }
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  width: max-content;
+  display: flex; }
 
 .legend {
-  width: 350px;
-  margin: auto 0 auto auto; }
+  margin: auto; }
 
 #legend1, #legend2 {
   background-image: linear-gradient(to right, #ffffff, #ffffcc, #ffeda0, #fed976, #feb24c, #fd8d3c, #fc4e2a, #e31a1c, #bd0026);
@@ -390,7 +392,7 @@ option {
   margin: auto; }
 
 .select2 {
-  width: 80% !important;
+  width: 40% !important;
   display: block !important;
   margin: auto !important; }
 
