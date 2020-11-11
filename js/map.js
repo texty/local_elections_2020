@@ -22,7 +22,7 @@ var map = new mapboxgl.Map({
     hash: false,
     tap: false,
     attributionControl: false,
-    style: 'dark_matter.json',
+    style: 'style3.json',
     center: [31.5, 48.9],
     zoom: default_zoom_u // starting zoom
 });

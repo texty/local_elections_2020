@@ -361,8 +361,8 @@ option {
 
 .legend-wrapper {
   position: absolute;
-  top: 50px;
-  right: 50px;
+  top: 70px;
+  right: 0px;
   width: max-content;
   display: flex; }
 
@@ -394,6 +394,6 @@ option {
 .select2 {
   width: 40% !important;
   display: block !important;
-  margin: auto !important; }
+  margin: 10px auto 20px auto !important; }
 
 /*# sourceMappingURL=styles.css.map */
