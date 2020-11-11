@@ -89,7 +89,7 @@
 </header>
 <main>
     <div id="title">
-        <h1>Тріумф місцевих партій, провал Слуги народу</h1>
+        <h1>Тріумф місцевих партій і самовисуванців, провал Слуги народу</h1>
         <h3></h3>
     </div>
 
@@ -98,7 +98,9 @@
 
         <h2></h2>
 
-        <select id="select_party" class="js-example-basic-single" name="state"></select>
+        <select id="select_party" class="js-example-basic-single" name="state">
+            <option class="overview" value="overview">Загальні результати</option>
+        </select>
 
         <!-- карта -->
         <div id="map" class="container"></div>
@@ -108,10 +110,52 @@
             <img id="spinner" src="img/wait.gif" alt="Завантаження..."/>
         </div>
 
-        <!-- легенда -->
-        <div class="legend-wrapper">
-            <div> К-ть обраних депутатів: <span>0</span><span id="legend1"></span><span> 35</span>
+         <!--легенда -->
+        <div id="legend_1" class="legend-wrapper" style="display: none;">
+            <div> К-ть обраних депутатів: <span> 0 </span><span id="legend1"></span><span> 35</span>
             </div>
+        </div>
+
+        <div id="legend_2" class="legend-wrapper" >
+
+            <div class="legend-item" >
+                <span class="rect" style="background-color: white"></span>
+                <span>Немає даних</span>
+            </div>
+            <div class="legend-item" >
+                <span class="rect" style="background-color: yellow"></span>
+                <span>Самовисування</span>
+            </div>
+
+            <div class="legend-item">
+                <span class="rect" style="background-color: #33a02c"></span>
+                <span>Слуга народу</span>
+            </div>
+            <div class="legend-item">
+                <span class="rect" style="background-color: #d53e4f"></span>
+                <span>Європейська солідарність</span>
+            </div>
+            <div class="legend-item">
+                <span class="rect" style="background-color: #fdae61"></span>
+                <span>Батьківщина</span>
+            </div>
+            <div class="legend-item">
+                <span class="rect" style="background-color: #3288bd"></span>
+                <span>ОПЗЖ</span>
+            </div>
+            <div class="legend-item">
+                <span class="rect" style="background-color: #7570b3"></span>
+                <span>За майбутнє</span>
+            </div>
+
+            <div class="legend-item">
+                <span class="rect" style="background-color: grey"></span>
+                <span>Інші партії</span>
+            </div>
+
+
+
+
         </div>
 
         <!-- перемикачі -->
@@ -126,7 +170,10 @@
 
 <script>
     $(document).ready(function() {
-        $('.js-example-basic-single').select2();
+        $('.js-example-basic-single').select2({
+            placeholder: "Шукати партію",
+            allowClear: true
+        });
     });
 
 

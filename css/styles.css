@@ -364,13 +364,27 @@ option {
   top: 0;
   right: 0;
   width: max-content;
-  display: flex; }
+  display: block;
+  background-color: white;
+  opacity: 0.8;
+  padding: 10px; }
+  .legend-wrapper .legend-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin: 5px 0; }
+    .legend-wrapper .legend-item .rect {
+      border: 1px solid grey;
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin: 0 10px; }
 
 .legend {
   margin: auto; }
 
 #legend1, #legend2 {
-  background-image: linear-gradient(to right, #ffffff, #ffffcc, #ffeda0, #fed976, #feb24c, #fd8d3c, #fc4e2a, #e31a1c, #bd0026);
+  background-image: linear-gradient(to right, #fef0d9, #fdd49e, #fdbb84, #fc8d59, #ef6548, #d7301f, #990000);
   display: inline-block;
   width: 150px;
   height: 1em; }
@@ -385,6 +399,9 @@ option {
   color: white;
   font-size: 14px; }
 
+.mapboxgl-popup-tip {
+  border-top-color: #483e3e !important; }
+
 .mapboxgl-popup-close-button {
   display: none; }
 
@@ -395,5 +412,8 @@ option {
   width: 40% !important;
   display: block !important;
   margin: 10px auto 20px auto !important; }
+
+option[value='overview'] {
+  font-weight: bold; }
 
 /*# sourceMappingURL=styles.css.map */

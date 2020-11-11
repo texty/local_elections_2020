@@ -5,12 +5,13 @@ var default_zoom_u = window.innerWidth > 800 ? 6 : 5;
 
 var stops_values = [
     [0, '#ffffff'],
-    [1, 'red'],
-    [5, '#fed976'],
-    [10, "#feb24c"],
-    [15, "#fd8d3c"],
-    [20, "#fc4e2a"],
-    [35, "#bd0026"]
+    [1, '#fef0d9'],
+    [4, '#fdd49e'],
+    [8, "#fdbb84"],
+    [12, "#fc8d59"],
+    [18, "#ef6548"],
+    [25, "#d7301f"],
+    [35, "#990000"]
 ];
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHJpbWFjdXMxODIiLCJhIjoiWGQ5TFJuayJ9.6sQHpjf_UDLXtEsz8MnjXw';
@@ -43,10 +44,11 @@ d3.csv("data/local_elections_parties_list.csv").then(function(parties_list){
         .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
 
     d3.select("#select_party")
-        .selectAll("option")
+        .selectAll("option.auto")
         .data(options)
         .enter()
         .append("option")
+        .attr("class", "auto")
         .attr("value", function(d){ return "results_"+d.party_name })
         .text(function(d){ return d.party_name })
 
@@ -76,7 +78,89 @@ map.on('load', function () {
     });
 
 
-    function redrawUkraineMap(choropleth_column) {
+    function drawTotal() {
+        map.addLayer({
+            "id": "schools_data",
+            'type': 'fill',
+            'minzoom': 4,
+            'maxzoom': 10,
+            'source': "schools",
+            "source-layer": "local_elections_4326",
+            'layout': {},
+            'paint': {
+             'fill-color': [
+                 "match",
+                 ["get", "results_max_party"],
+                 'ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"',
+                 "#d53e4f",
+                 'ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"',
+                 "#33a02c",
+                 'ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"',
+                 "#3288bd",
+                 'політична партія Всеукраїнське об’єднання "Батьківщина"',
+                 "#fdae61",
+                 'ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"',
+                 "#7570b3",
+                 'Самовисування',
+                 "yellow",
+                 'NA',
+                 'transparent',
+                 "silver"
+                ],
+
+                'fill-outline-color': [
+                    'case',
+                    ['boolean', ['feature-state', 'hover'], false],
+                    "grey",
+                    "lightgrey"
+                ]
+            }
+        }, firstSymbolId);
+
+
+        map.on('click', 'schools_data', function(e) {
+            let win_parties = [];
+            Object.keys(e.features[0].properties).forEach(function(key) {
+                let dep_amount = e.features[0].properties[key];
+                if(dep_amount > 0 && key.includes("results")){
+                    win_parties.push({"party": key.replace("results_", ""), "amount": dep_amount})
+                }
+            });
+
+            win_parties.sort(function(a,b){
+                return d3.descending(a.amount, b.amount)
+            });
+
+
+            function showPopUp () {
+                var html = '';
+                html += "<table>";
+                win_parties.forEach(function(d){
+                    html += " <tr>";
+                    html += "  <td>";
+                    html += d.party;
+                    html += "  </td>";
+                    html += "  <td>";
+                    html += d.amount;
+                    html += "  </td>";
+                    html += " </tr>";
+                });
+                html += "</table>";
+                return html;
+            }
+
+
+            map.getCanvas().style.cursor = 'pointer';
+            $('.mapboxgl-popup').remove();
+            popup = new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(showPopUp())
+                .addTo(map);
+        });
+    }
+
+
+    function redrawSelectedParty(choropleth_column) {
         map.addLayer({
             "id": "schools_data",
             'type': 'fill',
@@ -103,22 +187,9 @@ map.on('load', function () {
 
         map.on('click', 'schools_data', function(e) {
             map.getCanvas().style.cursor = 'pointer';
-            popup =  new mapboxgl.Popup()
-                .setLngLat(e.lngLat)
-                .setHTML(e.features[0].properties[choropleth_column])
-                .addTo(map);
-
-            if(e.features[0].properties.MAP_infections1000 > 0){
-                popup.setHTML(e.features[0].properties[choropleth_column])
-
-            }
-            // else {
-            //     popup.setHTML(": немає даних");
-            // }
+            popup.setHTML(e.features[0].properties["ADMIN_3"] + " " + e.features[0].properties["TYPE"] + ": " + e.features[0].properties[choropleth_column])
 
         });
-
-
     }
 
     function sourceCallback() {
@@ -130,25 +201,22 @@ map.on('load', function () {
     map.on('sourcedata', sourceCallback);
 
 
-
-    redrawUkraineMap('results_Самовисування');
+    drawTotal();
 
 
     $("#select_party").on("change", function(){
-        let selected = $("#select_party").val();
-        //console.log(selected)
-        map.removeLayer('schools_data');
-        redrawUkraineMap(selected);
-    });
-
-    /* перемикаємо шари  карти */
-    d3.select("#ukraine-switch-buttons").selectAll(".map_button").on("click", function() {
-        let selected_layer = d3.select(this).attr("value");
-        d3.select(this.parentNode).selectAll(".map_button").classed("active", false);
-        d3.select(this).classed("active", true);
         $('.mapboxgl-popup').remove();
         map.removeLayer('schools_data');
-        redrawUkraineMap(selected_layer);
+        let selected = $("#select_party").val();
+        if(selected != "overview"){
+            redrawSelectedParty(selected);
+            $("#legend_2").css("display", "none");
+            $("#legend_1").css("display", "block");
+        } else {
+            drawTotal();
+            $("#legend_1").css("display", "none");
+            $("#legend_2").css("display", "block");
+        }
 
     });
 
