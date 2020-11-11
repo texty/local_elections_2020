@@ -5,6 +5,7 @@ var default_zoom_u = window.innerWidth > 800 ? 6 : 5;
 
 var show_oblasts = false;
 var show_otg = true;
+var show_rayons = false;
 
 var stops_values = [
     [0, '#ffffff'],
@@ -88,215 +89,118 @@ map.on('load', function () {
     });
 
     //векторні тайли
-    map.addSource('oblasts', {
+    map.addSource('rayons', {
         type: 'vector',
         tiles: ["https://texty.github.io/local_elections_2020/tiles/rayons/{z}/{x}/{y}.pbf"]
     });
 
-    function drawOblasts(){
+
+    function drawPopup(e) {
+        if (e.features[0].properties["results_max_party"] === 'NA') {
+            map.getCanvas().style.cursor = 'pointer';
+            $('.mapboxgl-popup').remove();
+            popup = new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML("Немає даних")
+                .addTo(map);
+
+        } else {
+            /* даємо в тултіп перелік партй, які увійшли до рад*/
+            let win_parties = [];
+
+            /* проходимось по кожній партії, якщо більше 0 депутатів*/
+            Object.keys(e.features[0].properties).forEach(function (key) {
+                let dep_amount = e.features[0].properties[key];
+                if (dep_amount > 0 && key.includes("results") && !key.includes("max")) {
+                    win_parties.push({"party": key.replace("results_", ""), "amount": dep_amount})
+                }
+            });
+
+            win_parties.sort(function (a, b) {
+                return d3.descending(a.amount, b.amount)
+            });
+
+
+            function showPopUp() {
+                var html = '';
+                html += "<table>";
+                win_parties.forEach(function (d) {
+                    html += " <tr>";
+                    html += "  <td>";
+                    html += d.party;
+                    html += "  </td>";
+                    html += "  <td>";
+                    html += d.amount;
+                    html += "  </td>";
+                    html += " </tr>";
+                });
+                html += "</table>";
+                return html;
+            }
+
+
+            map.getCanvas().style.cursor = 'pointer';
+            $('.mapboxgl-popup').remove();
+            popup = new mapboxgl.Popup()
+                .setLngLat(e.lngLat)
+                .setHTML(showPopUp())
+                .addTo(map);
+        }
+    }
+
+
+    function removeLayers(){
+        if (map.getLayer("oblasts_data")) {
+            map.removeLayer("oblasts_data");
+        }
+
+        if (map.getLayer("otg_data")) {
+            map.removeLayer("otg_data");
+        }
+
+        if (map.getLayer("rayons_data")) {
+            map.removeLayer("rayons_data");
+        }
+    }
+
+
+    function drawMain(id, source, source_layer){
         map.addLayer({
-            "id": "oblasts_data",
+            "id": id,
             'type': 'fill',
             'minzoom': 4,
             'maxzoom': 10,
-            'source': "oblasts",
-            "source-layer": "local_elections_oblasts_4326",
+            'source': source,
+            "source-layer": source_layer,
             'layout': {},
             'paint': {
                 'fill-color': [
                     "match",
                     ["get", "results_max_party"],
-                    'ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"',
-                    "#d53e4f",
-                    'ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"',
-                    "#33a02c",
-                    'ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"',
-                    "#3288bd",
-                    'політична партія Всеукраїнське об’єднання "Батьківщина"',
-                    "#fdae61",
-                    'ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"',
-                    "#7570b3",
-                    'Самовисування',
-                    "yellow",
-                    'NULL',
-                    'transparent',
-                    'multiple',
-                    '#4d4d4d',
+                    'ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"', "#d53e4f",
+                    'ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"', "#33a02c",
+                    'ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"', "#3288bd",
+                    'політична партія Всеукраїнське об’єднання "Батьківщина"', "#fdae61",
+                    'ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"', "#7570b3",
+                    'Самовисування', "yellow",
+                    'NA', 'transparent',
+                    'multiple', '#4d4d4d',
                     "silver"
                 ],
                 "fill-opacity": 0.8,
-
                 'fill-outline-color': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
                     "grey",
-                    "black"
+                    "grey"
                 ]
             }
         }, firstSymbolId);
 
-        map.on('click', 'oblasts_data', function(e) {
-            console.log(e.features[0].properties);
-            if(!e.features[0].properties["results_max_party"]) {
-                map.getCanvas().style.cursor = 'pointer';
-                $('.mapboxgl-popup').remove();
-                popup = new mapboxgl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML("Немає даних")
-                    .addTo(map);
-
-            } else {
-                /* даємо в тултіп перелік партй, які увійшли до рад*/
-                let win_parties = [];
-
-                /* проходимось по кожній партії, якщо більше 0 депутатів*/
-                Object.keys(e.features[0].properties).forEach(function(key) {
-                    let dep_amount = e.features[0].properties[key];
-                    if(dep_amount > 0 && key.includes("results") && !key.includes("max")){
-                        win_parties.push({"party": key.replace("results_", ""), "amount": dep_amount})
-                    }
-                });
-
-                win_parties.sort(function(a,b){
-                    return d3.descending(a.amount, b.amount)
-                });
-
-
-                function showPopUp () {
-                    var html = '';
-                    html += "<table>";
-                    win_parties.forEach(function(d){
-                        html += " <tr>";
-                        html += "  <td>";
-                        html += d.party;
-                        html += "  </td>";
-                        html += "  <td>";
-                        html += d.amount;
-                        html += "  </td>";
-                        html += " </tr>";
-                    });
-                    html += "</table>";
-                    return html;
-                }
-
-
-                map.getCanvas().style.cursor = 'pointer';
-                $('.mapboxgl-popup').remove();
-                popup = new mapboxgl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML(showPopUp())
-                    .addTo(map);
-
-            }
-
-
+        map.on('click', id, function(e) {
+            drawPopup(e)
         });
 
-
-
-    }
-
-
-
-    function drawOtg() {
-        map.addLayer({
-            "id": "otg_data",
-            'type': 'fill',
-            'minzoom': 4,
-            'maxzoom': 10,
-            'source': "otg",
-            "source-layer": "local_elections_4326",
-            'layout': {},
-            'paint': {
-             'fill-color': [
-                 "match",
-                 ["get", "results_max_party"],
-                 'ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"',
-                 "#d53e4f",
-                 'ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"',
-                 "#33a02c",
-                 'ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"',
-                 "#3288bd",
-                 'політична партія Всеукраїнське об’єднання "Батьківщина"',
-                 "#fdae61",
-                 'ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"',
-                 "#7570b3",
-                 'Самовисування',
-                 "yellow",
-                 'NA',
-                 'transparent',
-                 'multiple',
-                 '#4d4d4d',
-                 "silver"
-                ],
-                "fill-opacity": 0.8,
-
-                'fill-outline-color': [
-                    'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    "grey",
-                    "lightgrey"
-                ]
-            }
-        }, firstSymbolId);
-
-
-        map.on('click', 'otg_data', function(e) {
-            console.log(e.features[0].properties);
-            if(e.features[0].properties["results_hromada_name"] === 'NA') {
-                map.getCanvas().style.cursor = 'pointer';
-                $('.mapboxgl-popup').remove();
-                popup = new mapboxgl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML("Немає даних")
-                    .addTo(map);
-
-            } else {
-                /* даємо в тултіп перелік партй, які увійшли до рад*/
-                let win_parties = [];
-
-                /* проходимось по кожній партії, якщо більше 0 депутатів*/
-                Object.keys(e.features[0].properties).forEach(function(key) {
-                    let dep_amount = e.features[0].properties[key];
-                    if(dep_amount > 0 && key.includes("results") && !key.includes("max")){
-                        win_parties.push({"party": key.replace("results_", ""), "amount": dep_amount})
-                    }
-                });
-
-                win_parties.sort(function(a,b){
-                    return d3.descending(a.amount, b.amount)
-                });
-
-
-                function showPopUp () {
-                    var html = '';
-                    html += "<table>";
-                    win_parties.forEach(function(d){
-                        html += " <tr>";
-                        html += "  <td>";
-                        html += d.party;
-                        html += "  </td>";
-                        html += "  <td>";
-                        html += d.amount;
-                        html += "  </td>";
-                        html += " </tr>";
-                    });
-                    html += "</table>";
-                    return html;
-                }
-
-
-                map.getCanvas().style.cursor = 'pointer';
-                $('.mapboxgl-popup').remove();
-                popup = new mapboxgl.Popup()
-                    .setLngLat(e.lngLat)
-                    .setHTML(showPopUp())
-                    .addTo(map);
-
-            }
-
-
-        });
     }
 
 
@@ -335,8 +239,6 @@ map.on('load', function () {
     }
 
 
-
-
     function sourceCallback() {
         if (map.getSource('otg') && map.isSourceLoaded('otg') && map.isStyleLoaded()) {
             d3.select("#spinner").remove();
@@ -346,7 +248,7 @@ map.on('load', function () {
     map.on('sourcedata', sourceCallback);
 
 
-    drawOtg();
+    drawMain("otg_data", "otg", "local_elections_4326");
 
 
     $("#select_party").on("change", function(){
@@ -363,24 +265,26 @@ map.on('load', function () {
                 $("#legend_1").css("display", "block");
             } else {
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
-                drawOtg();
+                drawMain("otg_data", "otg", "local_elections_4326");
                 $("#legend_1").css("display", "none");
                 $("#legend_2").css("display", "block");
             }
-        } if (show_oblasts === true){
+        } else if (show_oblasts === true){
 
-            // map.removeLayer('oblasts_data');
-            // if(selected != "overview"){
-            //     $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
-            //     redrawSelectedParty(selected, "oblasts", "oblasts_data", "local_elections_oblasts_4326");
-            //     $("#legend_2").css("display", "none");
-            //     $("#legend_1").css("display", "block");
-            // } else {
-            //     $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
-            //     drawOblasts();
-            //     $("#legend_1").css("display", "none");
-            //     $("#legend_2").css("display", "block");
-            // }
+        } else if (show_rayons === true ){
+            map.removeLayer('rayons_data');
+            if(selected != "overview"){
+                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
+                redrawSelectedParty(selected, "rayons", "rayons_data", "local_elections_rayons_4326");
+                $("#legend_2").css("display", "none");
+                $("#legend_1").css("display", "block");
+            } else {
+                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
+                drawMain("oblasts_data", "oblasts","local_elections_oblasts_4326");
+                $("#legend_1").css("display", "none");
+                $("#legend_2").css("display", "block");
+            }
+
         }
 
 
@@ -388,23 +292,53 @@ map.on('load', function () {
 
 
     $("#show_oblasts").on("click", function(){
-        $('select').prop('disabled', true);
-        $(".select2").css("opacity", 0.3);
-        show_oblasts = true;
-        show_otg  = false;
-        map.removeLayer('otg_data');
-        drawOblasts();
+        if(show_oblasts === true){
+            return false
+        } else {
+            $('#select_party').val('overview').trigger('change');
+            $('select').prop('disabled', true);
+            $(".select2").css("opacity", 0.3);
+            show_oblasts = true;
+            show_otg  = false;
+            show_rayons = false;
+            removeLayers();
+            drawMain("oblasts_data", "oblasts","local_elections_oblasts_4326");
+        }
+
 
     });
 
     $("#show_otg").on("click", function() {
-        $('select').prop('disabled', false);
-        $(".select2").css("opacity", 1);
-        show_otg  = true;
-        show_oblasts = false;
-        map.removeLayer('oblasts_data');
-        drawOtg();
+        if(show_otg === true){
+            return false
+        } else {
+            $('#select_party').val('overview').trigger('change');
+            $('select').prop('disabled', false);
+            $(".select2").css("opacity", 1);
+            show_otg = true;
+            show_oblasts = false;
+            show_rayons = false;
+            removeLayers();
+
+            drawMain("otg_data", "otg", "local_elections_4326");
+        }
     });
+
+    $("#show_rayons").on("click", function() {
+        if(show_rayons === true){
+            return false
+        } else {
+            $('#select_party').val('overview').trigger('change');
+            $('select').prop('disabled', false);
+            $(".select2").css("opacity", 1);
+            show_rayons = true;
+            show_otg = false;
+            show_oblasts = false;
+            removeLayers();
+            drawMain("rayons_data", "rayons", "local_elections_rayons_4326");
+        }
+    });
+
 
 
     var nav = new mapboxgl.NavigationControl();
