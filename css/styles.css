@@ -361,8 +361,8 @@ option {
 
 .legend-wrapper {
   position: absolute;
-  top: 70px;
-  right: 0px;
+  top: 0;
+  right: 0;
   width: max-content;
   display: flex; }
 
