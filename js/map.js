@@ -3,6 +3,9 @@
  */
 var default_zoom_u = window.innerWidth > 800 ? 6 : 5;
 
+var show_oblasts = false;
+var show_otg = true;
+
 var stops_values = [
     [0, '#ffffff'],
     [1, '#fef0d9'],
@@ -85,7 +88,6 @@ map.on('load', function () {
     });
 
     function drawOblasts(){
-
         map.addLayer({
             "id": "oblasts_data",
             'type': 'fill',
@@ -110,7 +112,7 @@ map.on('load', function () {
                     "#7570b3",
                     'Самовисування',
                     "yellow",
-                    'NA',
+                    'NULL',
                     'transparent',
                     'multiple',
                     '#4d4d4d',
@@ -127,7 +129,62 @@ map.on('load', function () {
             }
         }, firstSymbolId);
 
+        map.on('click', 'oblasts_data', function(e) {
+            console.log(e.features[0].properties);
+            if(!e.features[0].properties["oblasts_max_party"]) {
+                map.getCanvas().style.cursor = 'pointer';
+                $('.mapboxgl-popup').remove();
+                popup = new mapboxgl.Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML("Немає даних")
+                    .addTo(map);
 
+            } else {
+                /* даємо в тултіп перелік партй, які увійшли до рад*/
+                let win_parties = [];
+
+                /* проходимось по кожній партії, якщо більше 0 депутатів*/
+                Object.keys(e.features[0].properties).forEach(function(key) {
+                    let dep_amount = e.features[0].properties[key];
+                    if(dep_amount > 0 && key.includes("oblasts") && !key.includes("max")){
+                        win_parties.push({"party": key.replace("oblasts_", ""), "amount": dep_amount})
+                    }
+                });
+
+                win_parties.sort(function(a,b){
+                    return d3.descending(a.amount, b.amount)
+                });
+
+
+                function showPopUp () {
+                    var html = '';
+                    html += "<table>";
+                    win_parties.forEach(function(d){
+                        html += " <tr>";
+                        html += "  <td>";
+                        html += d.party;
+                        html += "  </td>";
+                        html += "  <td>";
+                        html += d.amount;
+                        html += "  </td>";
+                        html += " </tr>";
+                    });
+                    html += "</table>";
+                    return html;
+                }
+
+
+                map.getCanvas().style.cursor = 'pointer';
+                $('.mapboxgl-popup').remove();
+                popup = new mapboxgl.Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML(showPopUp())
+                    .addTo(map);
+
+            }
+
+
+        });
 
 
 
@@ -135,7 +192,7 @@ map.on('load', function () {
 
 
 
-    function drawTotal() {
+    function drawOtg() {
         map.addLayer({
             "id": "otg_data",
             'type': 'fill',
@@ -237,14 +294,15 @@ map.on('load', function () {
     }
 
 
-    function redrawSelectedParty(choropleth_column) {
+    function redrawSelectedParty(choropleth_column, source, id, source_layer) {
+        console.log(choropleth_column);
         map.addLayer({
-            "id": "otg_data",
+            "id": id,
             'type': 'fill',
             'minzoom': 4,
             'maxzoom': 10,
-            'source': "otg",
-            "source-layer": "local_elections_4326",
+            'source': source,
+            "source-layer": source_layer,
             "paint": {
                 'fill-color': {
                     property: choropleth_column,
@@ -261,13 +319,18 @@ map.on('load', function () {
             }
         }, firstSymbolId);
 
+        if(source === "otg"){
+            map.on('click', 'otg_data', function(e) {
+                map.getCanvas().style.cursor = 'pointer';
+                popup.setHTML(e.features[0].properties["ADMIN_3"] + " " + e.features[0].properties["TYPE"] + ": " + e.features[0].properties[choropleth_column])
 
-        map.on('click', 'otg_data', function(e) {
-            map.getCanvas().style.cursor = 'pointer';
-            popup.setHTML(e.features[0].properties["ADMIN_3"] + " " + e.features[0].properties["TYPE"] + ": " + e.features[0].properties[choropleth_column])
+            });
+        }
 
-        });
     }
+
+
+
 
     function sourceCallback() {
         if (map.getSource('otg') && map.isSourceLoaded('otg') && map.isStyleLoaded()) {
@@ -278,31 +341,61 @@ map.on('load', function () {
     map.on('sourcedata', sourceCallback);
 
 
-    drawTotal();
+    drawOtg();
 
 
     $("#select_party").on("change", function(){
         $('.mapboxgl-popup').remove();
-        map.removeLayer('otg_data');
+
+
         let selected = $("#select_party").val();
-        if(selected != "overview"){
-            $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
-            redrawSelectedParty(selected);
-            $("#legend_2").css("display", "none");
-            $("#legend_1").css("display", "block");
-        } else {
-            $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
-            drawTotal();
-            $("#legend_1").css("display", "none");
-            $("#legend_2").css("display", "block");
+
+
+        if(show_otg === true){
+            map.removeLayer('otg_data');
+            if(selected != "overview"){
+                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
+                redrawSelectedParty(selected, "otg", "otg_data", "local_elections_4326");
+                $("#legend_2").css("display", "none");
+                $("#legend_1").css("display", "block");
+            } else {
+                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
+                drawOtg();
+                $("#legend_1").css("display", "none");
+                $("#legend_2").css("display", "block");
+            }
+        } if (show_oblasts === true){
+            map.removeLayer('oblasts_data');
+            if(selected != "overview"){
+                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
+                redrawSelectedParty(selected, "oblasts", "oblasts_data", "local_elections_oblasts_4326");
+                $("#legend_2").css("display", "none");
+                $("#legend_1").css("display", "block");
+            } else {
+                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
+                drawOblasts();
+                $("#legend_1").css("display", "none");
+                $("#legend_2").css("display", "block");
+            }
         }
+
 
     });
 
 
     $("#show_oblasts").on("click", function(){
+        show_oblasts = true;
+        show_otg  = false;
         map.removeLayer('otg_data');
         drawOblasts();
+
+    });
+
+    $("#show_otg").on("click", function() {
+        show_otg  = true;
+        show_oblasts = false;
+        map.removeLayer('oblasts_data');
+        drawOtg();
     });
 
 
