@@ -72,19 +72,19 @@ map.on('load', function () {
 
 
     //векторні тайли
-    map.addSource('schools', {
+    map.addSource('otg', {
         type: 'vector',
-        tiles: ["https://texty.github.io/local_elections_2020/tiles/{z}/{x}/{y}.pbf"]
+        tiles: ["https://texty.github.io/local_elections_2020/tiles/otg/{z}/{x}/{y}.pbf"]
     });
 
 
     function drawTotal() {
         map.addLayer({
-            "id": "schools_data",
+            "id": "otg_data",
             'type': 'fill',
             'minzoom': 4,
             'maxzoom': 10,
-            'source': "schools",
+            'source': "otg",
             "source-layer": "local_elections_4326",
             'layout': {},
             'paint': {
@@ -121,7 +121,7 @@ map.on('load', function () {
         }, firstSymbolId);
 
 
-        map.on('click', 'schools_data', function(e) {
+        map.on('click', 'otg_data', function(e) {
             console.log(e.features[0].properties);
             if(e.features[0].properties["results_hromada_name"] === 'NA') {
                 map.getCanvas().style.cursor = 'pointer';
@@ -182,11 +182,11 @@ map.on('load', function () {
 
     function redrawSelectedParty(choropleth_column) {
         map.addLayer({
-            "id": "schools_data",
+            "id": "otg_data",
             'type': 'fill',
             'minzoom': 4,
             'maxzoom': 10,
-            'source': "schools",
+            'source': "otg",
             "source-layer": "local_elections_4326",
             "paint": {
                 'fill-color': {
@@ -205,7 +205,7 @@ map.on('load', function () {
         }, firstSymbolId);
 
 
-        map.on('click', 'schools_data', function(e) {
+        map.on('click', 'otg_data', function(e) {
             map.getCanvas().style.cursor = 'pointer';
             popup.setHTML(e.features[0].properties["ADMIN_3"] + " " + e.features[0].properties["TYPE"] + ": " + e.features[0].properties[choropleth_column])
 
@@ -213,7 +213,7 @@ map.on('load', function () {
     }
 
     function sourceCallback() {
-        if (map.getSource('schools') && map.isSourceLoaded('schools') && map.isStyleLoaded()) {
+        if (map.getSource('otg') && map.isSourceLoaded('otg') && map.isStyleLoaded()) {
             d3.select("#spinner").remove();
         }
     }        //
@@ -226,7 +226,7 @@ map.on('load', function () {
 
     $("#select_party").on("change", function(){
         $('.mapboxgl-popup').remove();
-        map.removeLayer('schools_data');
+        map.removeLayer('otg_data');
         let selected = $("#select_party").val();
         if(selected != "overview"){
             $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
