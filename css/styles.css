@@ -416,4 +416,10 @@ option {
 option[value='overview'] {
   font-weight: bold; }
 
+#map-guide {
+  font-size: 16px;
+  width: max-content;
+  max-width: 90%;
+  margin: 5px auto; }
+
 /*# sourceMappingURL=styles.css.map */

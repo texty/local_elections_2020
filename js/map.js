@@ -138,7 +138,7 @@ map.on('load', function () {
                 /* проходимось по кожній партії, якщо більше 0 депутатів*/
                 Object.keys(e.features[0].properties).forEach(function(key) {
                     let dep_amount = e.features[0].properties[key];
-                    if(dep_amount > 0 && key.includes("results")){
+                    if(dep_amount > 0 && key.includes("results") && !key.includes("max")){
                         win_parties.push({"party": key.replace("results_", ""), "amount": dep_amount})
                     }
                 });
@@ -229,10 +229,12 @@ map.on('load', function () {
         map.removeLayer('schools_data');
         let selected = $("#select_party").val();
         if(selected != "overview"){
+            $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
             redrawSelectedParty(selected);
             $("#legend_2").css("display", "none");
             $("#legend_1").css("display", "block");
         } else {
+            $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
             drawTotal();
             $("#legend_1").css("display", "none");
             $("#legend_2").css("display", "block");
