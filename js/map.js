@@ -106,9 +106,10 @@ map.on('load', function () {
                  'NA',
                  'transparent',
                  'multiple',
-                 '#3c3c3c',
+                 '#4d4d4d',
                  "silver"
                 ],
+                "fill-opacity": 0.8,
 
                 'fill-outline-color': [
                     'case',
