@@ -21,8 +21,8 @@ var stops_values = [
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHJpbWFjdXMxODIiLCJhIjoiWGQ5TFJuayJ9.6sQHpjf_UDLXtEsz8MnjXw';
 var map = new mapboxgl.Map({
     container: 'map',
-    minZoom: default_zoom_u,
-    maxZoom: default_zoom_u + 2,
+    minZoom: 4,
+    maxZoom: 10,
     hash: false,
     tap: false,
     attributionControl: false,
@@ -33,30 +33,37 @@ var map = new mapboxgl.Map({
 
 map.scrollZoom.disable();
 
+var otg_options;
+var rayons_options;
 
-d3.csv("data/local_elections_parties_list.csv").then(function(parties_list){
-    parties_list.forEach(function(d){
-        d.dep_amount = +d.dep_amount;
-    });
+Promise.all([
+        d3.csv("data/otg_parties_list.csv"),
+        d3.csv("data/rayons_parties_list.csv")
+    ]).then(function(parties_list){
 
-    let options = parties_list
+
+    parties_list[0].forEach(function(d){ d.dep_amount = +d.dep_amount; });
+    parties_list[1].forEach(function(d){ d.dep_amount = +d.dep_amount; });
+
+    console.table(parties_list[0]);
+
+    otg_options = parties_list[0]
+        .filter(function(d){ return d.dep_amount > 0 })
+        .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
+
+    rayons_options = parties_list[1]
         .filter(function(d){ return d.dep_amount > 0 })
         .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
 
     d3.select("#select_party")
         .selectAll("option.auto")
-        .data(options)
+        .data(otg_options)
         .enter()
         .append("option")
         .attr("class", "auto")
         .attr("value", function(d){ return "results_"+d.party_name })
         .text(function(d){ return d.party_name })
-
 });
-
-
-
-
 
 
 var popup;
@@ -123,7 +130,9 @@ map.on('load', function () {
 
             function showPopUp() {
                 var html = '';
+                html += " <div style='font-weight: bold;margin-bottom: 10px;'>" + e.features[0].properties['ADMIN_3'] + " " + e.features[0].properties['TYPE'] + "</div>";
                 html += "<table>";
+
                 win_parties.forEach(function (d) {
                     html += " <tr>";
                     html += "  <td>";
@@ -260,12 +269,12 @@ map.on('load', function () {
             map.removeLayer('otg_data');
             if(selected != "overview"){
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
-                redrawSelectedParty(selected, "otg", "otg_data", "local_elections_4326");
+                redrawSelectedParty(selected, "otg", "otg_data", "local_elections_otg_4326");
                 $("#legend_2").css("display", "none");
                 $("#legend_1").css("display", "block");
             } else {
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
-                drawMain("otg_data", "otg", "local_elections_4326");
+                drawMain("otg_data", "otg", "local_elections_otg_4326");
                 $("#legend_1").css("display", "none");
                 $("#legend_2").css("display", "block");
             }
@@ -295,6 +304,8 @@ map.on('load', function () {
         if(show_oblasts === true){
             return false
         } else {
+            d3.selectAll("button").classed("active", false);
+            d3.select(this).classed("active", true);
             $('#select_party').val('overview').trigger('change');
             $('select').prop('disabled', true);
             $(".select2").css("opacity", 0.3);
@@ -312,6 +323,19 @@ map.on('load', function () {
         if(show_otg === true){
             return false
         } else {
+            d3.selectAll("button").classed("active", false);
+            d3.select(this).classed("active", true);
+
+            d3.selectAll("option.auto").remove();
+            d3.select("#select_party")
+                .selectAll("option.auto")
+                .data(otg_options)
+                .enter()
+                .append("option")
+                .attr("class", "auto")
+                .attr("value", function(d){ return "results_"+d.party_name })
+                .text(function(d){ return d.party_name });
+
             $('#select_party').val('overview').trigger('change');
             $('select').prop('disabled', false);
             $(".select2").css("opacity", 1);
@@ -320,7 +344,7 @@ map.on('load', function () {
             show_rayons = false;
             removeLayers();
 
-            drawMain("otg_data", "otg", "local_elections_4326");
+            drawMain("otg_data", "otg", "local_elections_otg_4326");
         }
     });
 
@@ -328,6 +352,21 @@ map.on('load', function () {
         if(show_rayons === true){
             return false
         } else {
+
+            d3.selectAll("button").classed("active", false);
+            d3.select(this).classed("active", true);
+
+            d3.selectAll("option.auto").remove();
+            d3.select("#select_party")
+                .selectAll("option.auto")
+                .data(rayons_options)
+                .enter()
+                .append("option")
+                .attr("class", "auto")
+                .attr("value", function(d){ return "results_"+d.party_name })
+                .text(function(d){ return d.party_name });
+
+
             $('#select_party').val('overview').trigger('change');
             $('select').prop('disabled', false);
             $(".select2").css("opacity", 1);
