@@ -45,8 +45,6 @@ Promise.all([
     parties_list[0].forEach(function(d){ d.dep_amount = +d.dep_amount; });
     parties_list[1].forEach(function(d){ d.dep_amount = +d.dep_amount; });
 
-    console.table(parties_list[0]);
-
     otg_options = parties_list[0]
         .filter(function(d){ return d.dep_amount > 0 })
         .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
@@ -103,6 +101,7 @@ map.on('load', function () {
 
 
     function drawPopup(e) {
+        console.log(e.features[0].properties);
         if (e.features[0].properties["results_max_party"] === 'NA') {
             map.getCanvas().style.cursor = 'pointer';
             $('.mapboxgl-popup').remove();
@@ -130,7 +129,7 @@ map.on('load', function () {
 
             function showPopUp() {
                 var html = '';
-                html += " <div style='font-weight: bold;margin-bottom: 10px;'>" + e.features[0].properties['ADMIN_3'] + " " + e.features[0].properties['TYPE'] + "</div>";
+                html += " <div style='font-weight: bold;margin-bottom: 10px;'>" + e.features[0].properties['results_name'].capitalize() + "</div>";
                 html += "<table>";
 
                 win_parties.forEach(function (d) {
@@ -200,8 +199,8 @@ map.on('load', function () {
                 'fill-outline-color': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
-                    "grey",
-                    "grey"
+                    "transparent",
+                    "transparent"
                 ]
             }
         }, firstSymbolId);
@@ -231,19 +230,19 @@ map.on('load', function () {
                 'fill-outline-color': [
                     'case',
                     ['boolean', ['feature-state', 'hover'], false],
-                    "grey",
-                    "lightgrey"
+                    "transparent",
+                    "transparent"
                 ]
             }
         }, firstSymbolId);
 
-        if(source === "otg"){
-            map.on('click', 'otg_data', function(e) {
+        // if(source === "otg"){
+            map.on('click', id, function(e) {
                 map.getCanvas().style.cursor = 'pointer';
-                popup.setHTML(e.features[0].properties["ADMIN_3"] + " " + e.features[0].properties["TYPE"] + ": " + e.features[0].properties[choropleth_column])
+                popup.setHTML(e.features[0].properties["results_name"].capitalize() + ": " + e.features[0].properties[choropleth_column])
 
             });
-        }
+       // }
 
     }
 
@@ -257,7 +256,7 @@ map.on('load', function () {
     map.on('sourcedata', sourceCallback);
 
 
-    drawMain("otg_data", "otg", "local_elections_4326");
+    drawMain("otg_data", "otg", "local_elections_otg_4326");
 
 
     $("#select_party").on("change", function(){
@@ -387,6 +386,10 @@ map.on('load', function () {
 
 
 
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
 
 
 

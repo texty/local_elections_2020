@@ -393,9 +393,6 @@ option {
   position: relative;
   font-size: 14px; }
 
-.mapboxgl-popup-tip {
-  border-top-color: #483e3e !important; }
-
 .js-example-basic-single {
   margin: auto; }
 

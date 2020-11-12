@@ -1488,9 +1488,9 @@
         "line-join": "round"
       },
       "paint": {
-        "line-color": "rgb(230, 204, 207)",
+        "line-color": "grey",
         "line-width": {
-          "base": 1.1,
+          "base": 3,
           "stops": [
             [
               3,
