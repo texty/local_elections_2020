@@ -391,12 +391,51 @@ String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
+var current_id = "one";
+var prev = $('div.prev');
+var next = $('div.next');
+var index = 0;
+var lis = $('#one').find('ul.slider li');
+var count = lis.length;
 
+prev.on('click', function() {
+    let carusel = $(this).closest(".torf-carusel");
+    let new_id = $(carusel).attr("id");
+    if(current_id != new_id){
+        current_id = new_id;
+        index = 0;
+        lis = $(carusel).find('ul.slider li');
+        count = lis.length;
+    }
+    $(lis[index]).removeClass('visible');
+    index--;
+    if (index < 0){
+        index = count-1;
+    }
 
+    $(lis[index]).addClass('visible');
+    let alt = $(lis[index]).find("img").attr("alt");
+    $(carusel).find("p.carousel-caption").html(alt);
+});
 
+next.on('click', function() {
+    let carusel = $(this).closest(".torf-carusel");
+    let new_id = $(carusel).attr("id");
+    if(current_id != new_id){
+        current_id = new_id;
+        index = 0;
+        lis = $(carusel).find('ul.slider li');
+        count = lis.length;
+    }
+    $(lis[index]).removeClass('visible', false);
+    index++;
+    if (index > count-1){
+        index = 0;
+    }
 
-
-
-
+    $(lis[index]).addClass('visible', true);
+    let alt = $(lis[index]).find("img").attr("alt");
+    $(carusel).find("p.carousel-caption").html(alt);
+});
 
 

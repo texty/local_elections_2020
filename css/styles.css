@@ -430,4 +430,100 @@ nav button.active {
   max-width: 900px;
   margin: 20px auto; }
 
+div.torf-carusel {
+  margin: 60px auto;
+  width: 100%;
+  max-width: 900px;
+  height: 60vh;
+  position: relative;
+  padding: 200px 0; }
+
+div.torf-carusel > div.prev,
+div.torf-carusel > div.next {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  width: 40px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0.5);
+  cursor: pointer; }
+
+div.torf-carusel > div.prev {
+  left: -20px; }
+
+div.torf-carusel > div.prev > .arrow-left {
+  height: 20px;
+  width: 20px;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #fff;
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  -webkit-transform: translate(-20%, -50%) rotate(225deg);
+  -ms-transform: translate(-20%, -50%) rotate(225deg);
+  -o-transform: translate(-20%, -50%) rotate(225deg);
+  transform: translate(-20%, -50%) rotate(225deg); }
+
+div.torf-carusel > div.next {
+  right: 0; }
+
+div.torf-carusel > div.next > .arrow-right {
+  height: 20px;
+  width: 20px;
+  border-top: 2px solid #fff;
+  border-right: 2px solid #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-70%, -50%) rotate(45deg);
+  -ms-transform: translate(-70%, -50%) rotate(45deg);
+  -o-transform: translate(-70%, -50%) rotate(45deg);
+  transform: translate(-70%, -50%) rotate(45deg); }
+
+ul.torf-carusel-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  height: 100%;
+  max-width: 100%; }
+
+li.torf-carusel-item {
+  margin-left: 0;
+  display: flex;
+  min-width: 100%;
+  /*max-width: 1000px;*/
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: 0.6s ease-in-out; }
+  li.torf-carusel-item .item-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin: 0 auto;
+    height: 100%; }
+    li.torf-carusel-item .item-wrapper img {
+      width: 100%;
+      max-width: 900px; }
+
+li.torf-carusel-item.visible {
+  opacity: 1;
+  transition: 0.6s ease-in-out; }
+
+li.torf-carusel-item > img {
+  display: block;
+  max-width: 100%;
+  margin: auto;
+  max-height: 100%; }
+
+p.carousel-caption {
+  margin: 5px auto; }
+
+@media (max-width: 800px) and (orientation: portrait) {
+  div.torf-carusel {
+    height: 70vh;
+    padding: 110px 0; } }
+
 /*# sourceMappingURL=styles.css.map */
