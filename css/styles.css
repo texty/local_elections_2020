@@ -424,4 +424,10 @@ nav button {
 nav button.active {
   background-color: #ed6746; }
 
+#pic-slider img {
+  display: block;
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto; }
+
 /*# sourceMappingURL=styles.css.map */
