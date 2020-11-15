@@ -37,13 +37,13 @@
      inkscape:window-height="1056"
      id="namedview253"
      showgrid="false"
-     inkscape:zoom="3.9135802"
-     inkscape:cx="174.59935"
-     inkscape:cy="3.5042253"
+     inkscape:zoom="2.7673191"
+     inkscape:cx="254.41905"
+     inkscape:cy="289.90207"
      inkscape:window-x="61"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g229" />
+     inkscape:current-layer="svg251" />
   <defs
      id="defs4">
     <style
@@ -287,77 +287,77 @@
      cx="268.86"
      cy="111.86"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle81" />
   <circle
      cx="220.74"
      cy="139.97"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle83" />
   <circle
      cx="204.74"
      cy="168.08"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle85" />
   <circle
      cx="210.98"
      cy="224.31"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle87" />
   <circle
      cx="208.96"
      cy="196.19"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle89" />
   <circle
      cx="218.34"
      cy="308.64"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle91" />
   <circle
      cx="209.00"
      cy="252.42"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle93" />
   <circle
      cx="201.29"
      cy="280.53"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle95" />
   <circle
      cx="211.27"
      cy="364.86"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle97" />
   <circle
      cx="200.00"
      cy="336.75"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle99" />
   <circle
      cx="199.13"
      cy="392.97"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle101" />
   <circle
@@ -564,7 +564,7 @@
     <text
        x="268.86"
        y="105.44"
-       style="font-size: 9.10px; fill: #FF0000; font-family: Open Sans;"
+       style="font-size:9.1px;fill:#ed6746;font-family:Open Sans;fill-opacity:1;stroke:none;"
        textLength="66.44px"
        lengthAdjust="spacingAndGlyphs"
        id="text169">місцеві вибори</text>

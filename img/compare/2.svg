@@ -37,13 +37,13 @@
      inkscape:window-height="1056"
      id="namedview253"
      showgrid="false"
-     inkscape:zoom="3.9135802"
-     inkscape:cx="215.2627"
-     inkscape:cy="94.379516"
+     inkscape:zoom="1.3836596"
+     inkscape:cx="183.13409"
+     inkscape:cy="240.73092"
      inkscape:window-x="61"
      inkscape:window-y="24"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g233-2" />
+     inkscape:current-layer="svg251" />
   <defs
      id="defs4">
     <style
@@ -291,77 +291,77 @@
      cx="529.50"
      cy="392.97"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle81" />
   <circle
      cx="292.51"
      cy="364.86"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle83" />
   <circle
      cx="284.40"
      cy="308.64"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle85" />
   <circle
      cx="282.08"
      cy="280.53"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle87" />
   <circle
      cx="254.68"
      cy="139.97"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle89" />
   <circle
      cx="244.48"
      cy="252.42"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle91" />
   <circle
      cx="231.46"
      cy="168.08"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle93" />
   <circle
      cx="227.34"
      cy="224.31"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle95" />
   <circle
      cx="227.01"
      cy="336.75"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle97" />
   <circle
      cx="221.32"
      cy="196.19"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle99" />
   <circle
      cx="211.05"
      cy="111.86"
      r="3.56pt"
-     style="stroke-width: 0.71; stroke: #FF0000; fill: #FF0000;"
+     style="stroke-width:0.71;stroke:none;fill:#ed6746;fill-opacity:1"
      clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
      id="circle101" />
   <circle
@@ -569,15 +569,15 @@
     <text
        x="529.5"
        y="386.54999"
-       style="font-size:9.10000038px;font-family:'Open Sans';fill:#ff0000"
+       style="font-size:9.10000038px;font-family:'Open Sans';fill:#ed6746;fill-opacity:1;stroke:none;"
        textLength="66.440002"
        lengthAdjust="spacingAndGlyphs"
        id="text169">місцеві вибори</text>
   </g>
   <g
-     clip-path="url(#cpMTYxLjkyNnw2MTkuNjU0fDQwOS44Mzl8OTQuOTk0Ng==)"
+     clip-path="none"
      id="g175"
-     transform="translate(-307.15648,-260.90233)">
+     transform="translate(-325.29844,-262.43545)">
     <text
        x="544.06"
        y="386.54999"
