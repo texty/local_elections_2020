@@ -525,5 +525,12 @@ p.carousel-caption {
   div.torf-carusel {
     height: 70vh;
     padding: 110px 0; } }
+#compare {
+  max-width: 1200px;
+  margin: auto;
+  width: 100%; }
+  #compare img {
+    width: 100%;
+    margin-bottom: 100px; }
 
 /*# sourceMappingURL=styles.css.map */
