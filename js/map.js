@@ -263,34 +263,34 @@ map.on('load', function () {
         $('.mapboxgl-popup').remove();
         let selected = $("#select_party").val();
 
-
         if(show_otg === true){
             map.removeLayer('otg_data');
             if(selected != "overview"){
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
                 redrawSelectedParty(selected, "otg", "otg_data", "local_elections_otg_4326");
                 $("#legend_2").css("display", "none");
-                $("#legend_1").css("display", "block");
+                $("#legend_1").css("display", "flex");
             } else {
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
                 drawMain("otg_data", "otg", "local_elections_otg_4326");
                 $("#legend_1").css("display", "none");
-                $("#legend_2").css("display", "block");
+                $("#legend_2").css("display", "flex");
             }
         } else if (show_oblasts === true){
 
         } else if (show_rayons === true ){
             map.removeLayer('rayons_data');
+            map.removeLayer('oblasts_data');
             if(selected != "overview"){
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
                 redrawSelectedParty(selected, "rayons", "rayons_data", "local_elections_rayons_4326");
                 $("#legend_2").css("display", "none");
-                $("#legend_1").css("display", "block");
+                $("#legend_1").css("display", "flex");
             } else {
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
-                drawMain("oblasts_data", "oblasts","local_elections_oblasts_4326");
+                drawMain("rayons_data", "rayons","local_elections_rayons_4326");
                 $("#legend_1").css("display", "none");
-                $("#legend_2").css("display", "block");
+                $("#legend_2").css("display", "flex");
             }
 
         }

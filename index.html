@@ -90,8 +90,13 @@
 <main>
     <div id="title">
         <h1>Тріумф місцевих партій і самовисуванців, провал Слуги народу</h1>
-        <h3></h3>
+        <h3>Місцеві вибори 2020 року стали бенефісом локальних партій.  Вперше, більшість місць в місцевих радах взяли самовисуванці. На другому місці з великим відривом партія "Слуга народу", але фактично на другому місці численні місцеві партії"</h3>
     </div>
+
+
+    <p> "Рідне Закарпаття", Всеукраїнське об’єднання "ЧЕРКАЩАНИ", "Блок Кернеса – Успішний Харків!", Партія Вінничан, Довіряй Ділам (партія міського голови Одеси - Труханова) та інші. Місцеві політики відчули невдоволення людей центральною владою і втрату довіри до великих всеукраїнських політичних проектів і пустили в хід політичні партії, рухи та обʼєднання імені себе самих.</p>
+
+    <p>Ми зібрали результати місцевих виборів по територіальним громадам, районам та обласним радам в інтерактивну карту. Ви можете обрати партію і подивитись, скільки депутатів вона отримала в різних ОТГ.</p>
 
     <nav>
         <button id="show_otg" class="active">Територіальні громади</button>
@@ -102,30 +107,22 @@
 
     <div id="map1_wrapper" class="map_wrapper">
 
-        <h2></h2>
+        <p id="map-guide">Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів</p>
+
 
         <select id="select_party" class="js-example-basic-single" name="state">
             <option class="overview" value="overview">Загальні результати</option>
         </select>
 
-        <p id="map-guide">Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів</p>
 
-        <!-- карта -->
-        <div id="map" class="container"></div>
-
-        <!-- спінер -->
-        <div id="loading-background" class=''>
-            <img id="spinner" src="img/wait.gif" alt="Завантаження..."/>
-        </div>
-
-         <!--легенда -->
+        <!--легенда -->
         <div id="legend_1" class="legend-wrapper" style="display: none;">
             <div> К-ть обраних депутатів: <span> 0 </span><span id="legend1"></span><span> 35</span>
             </div>
         </div>
 
         <div id="legend_2" class="legend-wrapper" >
-            <div>Хто переміг в ОТГ:</div>
+            <div style="font-weight: bold">Хто переміг в ОТГ:</div>
 
             <div class="legend-item" >
                 <span class="rect" style="background-color: yellow"></span>
@@ -164,47 +161,49 @@
                 <span class="rect" style="background-color: white"></span>
                 <span>Немає даних</span>
             </div>
+        </div>
+    </div>
 
+        <!-- карта -->
+        <div id="map" class="container"></div>
 
-
-
+        <!-- спінер -->
+        <div id="loading-background" class=''>
+            <img id="spinner" src="img/wait.gif" alt="Завантаження..."/>
         </div>
 
-        <!-- перемикачі -->
-        <!--<div class="buttons" id="ukraine-switch-buttons">-->
-            <!--<div class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"'>ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"</div>-->
-            <!--<div class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"'>ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"</div>-->
-            <!--<div class="map_button" value='results_ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"'>ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"</div>-->
-            <!--<div class="map_button active" value='results_ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"'>ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"</div>-->
-        <!--</div>-->
-    </div>
+
+
+    <h2>Склад міських рад обласних центрів</h2>
+    <p>В столичну раду потрапили представники сімох партій, першість поділили між собою "Удар" та "ЄС". У Дніпровській і Житомирській міських радах більшість депутатських місць отримала партія міського голови Дніпра Філатова - "Пропозиція", у Вінниці більшість взяла партія екс-премʼєра Гройсмана, в Харкові - партія переобраного мера Кернеса, в Одесі - Труханова. Гортайте слайдер і дивіться на склад рад в обласних центрах.</p>
 
 
 
     <div id="id-name" class="torf-carusel">
         <div class="prev">
-            <div class="arrow-left"></div>
+            <img src="img/right.svg"/>
+            <!--<div class="arrow-left"></div>-->
         </div>
         <ul class="slider torf-carusel-list" >
-            <li class="torf-carusel-item visible"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Київська.png"/></div></li>
+            <li class="torf-carusel-item visible"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Київська_crop.png"/></div></li>
 
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Дніпровська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Житомирська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Запорізька.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Луцька.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Миколаївська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Ужгородська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Харківська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Одеська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Полтавська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Рівненська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Сумська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Тернопільська.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Вінницька_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Дніпровська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Житомирська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Запорізька_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Миколаївська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Ужгородська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Харківська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Одеська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Полтавська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Рівненська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Сумська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Тернопільська_crop.png"/></div></li>
 
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Херсонська.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Вінницька.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Кропивницька.png"/></div></li>
-            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Львівська.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Херсонська_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Вінницька_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Кропивницька_crop.png"/></div></li>
+            <li class="torf-carusel-item"><div class="item-wrapper"><img class="preview-mini" src="img/charts/Львівська_crop.png"/></div></li>
 
 
 
@@ -217,13 +216,14 @@
         </ul>
         <!--<p class="carousel-caption">підпис до фото</p>-->
         <div class="next">
-            <div class="arrow-right"></div>
+            <img src="img/right.svg"/>
+            <!--<div class="arrow-right"></div>-->
         </div>
     </div>
 
 
-
-    <h2>На виборах в обласні ради Слуги набрали істотно менше голосів ніж на минулорічних парламентських</h2>
+    <h2></h2>
+    <p>На виборах в обласні ради Слуги набрали істотно менше голосів ніж на минулорічних парламентських. Зважаючи на специфіку виборів, про яку ми писали раніше, порівнюваим результати цих виборів з попередніми важко, проте ми порівняли к-ть голосів з минулорічними парламентськими для найвагоміших всеукраїнських партій: а саме Слуги народу, ЄС, Батьківщини, та ОПЗЖ</p>
     <div id="compare">
         <img src="img/compare/1.svg"/>
         <img src="img/compare/2.svg"/>
