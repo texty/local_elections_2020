@@ -303,7 +303,7 @@ map.on('load', function () {
         if(show_oblasts === true){
             return false
         } else {
-            d3.selectAll("button").classed("active", false);
+            d3.selectAll(".map-switcher").classed("active", false);
             d3.select(this).classed("active", true);
             $('#select_party').val('overview').trigger('change');
             $('select').prop('disabled', true);
@@ -322,7 +322,7 @@ map.on('load', function () {
         if(show_otg === true){
             return false
         } else {
-            d3.selectAll("button").classed("active", false);
+            d3.selectAll(".map-switcher").classed("active", false);
             d3.select(this).classed("active", true);
 
             d3.selectAll("option.auto").remove();
@@ -352,7 +352,7 @@ map.on('load', function () {
             return false
         } else {
 
-            d3.selectAll("button").classed("active", false);
+            d3.selectAll(".map-switcher").classed("active", false);
             d3.select(this).classed("active", true);
 
             d3.selectAll("option.auto").remove();

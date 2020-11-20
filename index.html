@@ -100,10 +100,10 @@
 
     <p>Ми зібрали результати місцевих виборів по територіальним громадам, районам та обласним радам в інтерактивну карту. Ви можете обрати партію і подивитись, скільки депутатів вона отримала в різних ОТГ.</p>
 
-    <nav>
-        <button id="show_otg" class="active">Територіальні громади</button>
-        <button id="show_rayons">Районні ради в областях</button>
-        <button id="show_oblasts">Обласні ради</button>
+    <nav class="button-wrapper">
+        <button id="show_otg" class="map-switcher active">Територіальні громади</button>
+        <button id="show_rayons" class="map-switcher">Районні ради в областях</button>
+        <button id="show_oblasts" class="map-switcher">Обласні ради</button>
     </nav>
 
     <p  class="subtitle">Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів</p>
@@ -194,7 +194,7 @@
 
     <p>На виборах в обласні ради Слуги набрали істотно менше голосів ніж на минулорічних парламентських. Зважаючи на специфіку виборів, про яку ми писали раніше, порівнюваим результати цих виборів з попередніми важко, проте ми порівняли к-ть голосів з минулорічними парламентськими для найвагоміших всеукраїнських партій: а саме Слуги народу, ЄС, Батьківщини, та ОПЗЖ</p>
     <h2 id="compare-title"><span>Слуга народу</span>. Від парламентських до місцевих</h2>
-        <div style="width: 60%; margin: auto; display: flex; justify-content: center;">
+        <div class="button-wrapper">
             <button class="draw-lollipop active" value = 'Слуга народу'>Слуга народу</button>
             <button class="draw-lollipop" value = 'Європейська солідарність'>Європейська солідарність</button>
             <button class="draw-lollipop" value = 'Опозиційна платформа - за життя'>ОПЗЖ</button>

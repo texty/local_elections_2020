@@ -237,23 +237,7 @@ body {
         width: 90%;
         margin: 50px 0 20px 0; } }
 
-#map.container {
-  width: 100%;
-  height: 110vh; }
-  @media (max-width: 1200px) {
-    #map.container {
-      width: 100%;
-      height: 60vh; } }
-
-.map_wrapper {
-  position: relative; }
-
-#spinner {
-  width: 100px;
-  position: absolute;
-  top: 40%;
-  left: 50%; }
-
+/*--- загальні ---*/
 h2, h3, h4, h5, p {
   line-height: 1.6;
   width: 60%;
@@ -273,12 +257,15 @@ p {
   line-height: 1.6;
   font-size: 18px; }
 
-.subtitle {
+p.subtitle {
   text-align: center; }
 
-.buttons {
-  margin: auto auto 100px auto;
-  max-width: max-content; }
+/*---- кнопки ----*/
+.button-wrapper {
+  width: 60%;
+  margin: auto;
+  display: flex;
+  justify-content: center; }
 
 button {
   padding: 9px 11px 7px 11px;
@@ -295,6 +282,24 @@ button.active {
   background-color: #ec7263;
   color: white; }
 
+/*----- карта -----*/
+#map.container {
+  width: 100%;
+  height: 110vh; }
+  @media (max-width: 1200px) {
+    #map.container {
+      width: 100%;
+      height: 60vh; } }
+
+.map_wrapper {
+  position: relative; }
+
+#spinner {
+  width: 100px;
+  position: absolute;
+  top: 40%;
+  left: 50%; }
+
 select#region-to-show {
   font-size: 20px;
   font-weight: bold;
@@ -303,9 +308,7 @@ select#region-to-show {
 option {
   font-size: 14px; }
 
-#schools_length {
-  display: none; }
-
+/*----- легенда до карти -----*/
 .legend-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -341,6 +344,7 @@ option {
   position: relative;
   font-size: 14px; }
 
+/*---- dropdown -----*/
 .js-example-basic-single {
   margin: auto; }
 
@@ -353,6 +357,7 @@ option {
 option[value='overview'] {
   font-weight: bold; }
 
+/*--- слайдер ----*/
 div#slider {
   min-height: 30px;
   margin: 10px auto;
@@ -363,8 +368,7 @@ div#slider {
 div.prev,
 div.next {
   position: absolute;
-  z-index: 2;
-  top: -2%;
+  top: 0;
   width: 30px;
   height: 30px;
   cursor: pointer; }
@@ -377,16 +381,11 @@ div.prev {
 div.next {
   right: 40%; }
 
-p.carousel-caption {
-  margin: 5px auto; }
-
+/*----- графіки -----*/
 #compare, #bar-chart {
   max-width: 900px;
   margin: auto;
   width: 100%; }
-  #compare img, #bar-chart img {
-    width: 100%;
-    margin-bottom: 100px; }
 
 g.tick text {
   font-size: 16px;
@@ -398,12 +397,7 @@ path.domain {
 g.tick line {
   stroke: lightgrey; }
 
-.draw-lollipop.active {
-  background-color: #ec7263;
-  color: white; }
-
 #no-data {
-  font-weight: bold;
   text-align: center;
   display: none;
   margin-bottom: 50px; }
