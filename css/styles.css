@@ -267,7 +267,7 @@ p.subtitle {
   display: flex;
   justify-content: center; }
 
-button {
+button:not(.mapboxgl-popup-close-button) {
   padding: 9px 11px 7px 11px;
   font: 16px nyt-franklin, sans-serif;
   border: 1px solid #ccc;
@@ -342,7 +342,8 @@ option {
 
 .mapboxgl-popup-content {
   position: relative;
-  font-size: 14px; }
+  font-size: 14px;
+  padding: 10px 15px; }
 
 /*---- dropdown -----*/
 .js-example-basic-single {

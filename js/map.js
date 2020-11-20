@@ -101,7 +101,6 @@ map.on('load', function () {
 
 
     function drawPopup(e) {
-        console.log(e.features[0].properties);
         if (e.features[0].properties["results_max_party"] === 'NA') {
             map.getCanvas().style.cursor = 'pointer';
             $('.mapboxgl-popup').remove();
@@ -236,13 +235,12 @@ map.on('load', function () {
             }
         }, firstSymbolId);
 
-        // if(source === "otg"){
-            map.on('click', id, function(e) {
-                map.getCanvas().style.cursor = 'pointer';
-                popup.setHTML(e.features[0].properties["results_name"].capitalize() + ": " + e.features[0].properties[choropleth_column])
+        map.on('click', id, function(e) {
+            map.getCanvas().style.cursor = 'pointer';
+            popup.setHTML(e.features[0].properties["results_name"].capitalize() + ": " + e.features[0].properties[choropleth_column])
 
-            });
-       // }
+        });
+
 
     }
 
@@ -251,7 +249,7 @@ map.on('load', function () {
         if (map.getSource('otg') && map.isSourceLoaded('otg') && map.isStyleLoaded()) {
             d3.select("#spinner").remove();
         }
-    }        //
+    }
 
     map.on('sourcedata', sourceCallback);
 
@@ -262,9 +260,8 @@ map.on('load', function () {
     $("#select_party").on("change", function(){
         $('.mapboxgl-popup').remove();
         let selected = $("#select_party").val();
-
+        removeLayers();
         if(show_otg === true){
-            map.removeLayer('otg_data');
             if(selected != "overview"){
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
                 redrawSelectedParty(selected, "otg", "otg_data", "local_elections_otg_4326");
@@ -279,8 +276,6 @@ map.on('load', function () {
         } else if (show_oblasts === true){
 
         } else if (show_rayons === true ){
-            map.removeLayer('rayons_data');
-            map.removeLayer('oblasts_data');
             if(selected != "overview"){
                 $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
                 redrawSelectedParty(selected, "rayons", "rayons_data", "local_elections_rayons_4326");
@@ -385,5 +380,10 @@ map.on('load', function () {
 }); //end of Ukraine map
 
 
+
+
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+};
 
 
