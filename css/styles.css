@@ -263,8 +263,6 @@ h2, h3, h4, h5, p {
       width: 90%; } }
 
 h2, h3 {
-  text-align: center;
-  width: 80%;
   margin: auto; }
 
 h2 {
@@ -278,7 +276,7 @@ p {
   margin: auto auto 100px auto;
   max-width: max-content; }
 
-.map_button {
+button {
   padding: 9px 11px 7px 11px;
   font: 16px nyt-franklin, sans-serif;
   border: 1px solid #ccc;
@@ -286,13 +284,12 @@ p {
   display: inline-block;
   cursor: pointer;
   background: #fff;
-  margin: 0 0.25em; }
+  margin: 0 0.25em;
+  outline: none; }
 
-.map_button:hover {
-  background: lightgrey; }
-
-.active {
-  background: lightgrey; }
+button.active {
+  background-color: #ec7263;
+  color: white; }
 
 #schools, #example {
   width: 100% !important;
@@ -413,16 +410,7 @@ option[value='overview'] {
   margin: 5px auto; }
 
 nav button {
-  cursor: pointer;
-  background-color: #6a6a6e;
-  border: none;
-  color: white;
-  padding: 15px;
-  margin: 10px 0;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px; }
+  cursor: pointer; }
 
 nav button.active {
   background-color: #ed6746; }
@@ -507,5 +495,19 @@ p.carousel-caption {
   #compare img {
     width: 100%;
     margin-bottom: 100px; }
+
+g.tick text {
+  font-size: 16px;
+  fill: #5D646F; }
+
+path.domain {
+  display: none; }
+
+g.tick line {
+  stroke: lightgrey; }
+
+.draw-lollipop.active {
+  background-color: #ec7263;
+  color: white; }
 
 /*# sourceMappingURL=styles.css.map */
