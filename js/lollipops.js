@@ -94,23 +94,16 @@ d3.csv("data/compare_with_parliament.csv").then(function(data){
        var lines = svg.selectAll(".lolly-line")
             .data(filtered);
 
-       lines
-            .transition().duration(500)
-            .attr("x1", function(d) { return xScale(0); })
-            .attr("x2", function(d) { return xScale(d.max_value); })
-            .attr("y1", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; })
-            .attr("y2", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; });
-
        lines.enter().append("line")
            .attr("class", "lolly-line")
-            .attr("x1", function(d) { return xScale(0); })
-            .attr("x2", function(d) { return xScale(0); })
-            .attr("y1", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; })
-            .attr("y2", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; })
-            .attr("stroke", "rgb(244, 174, 164)")
-            .attr("stroke-width", 3)
-            .transition().duration(500)
-            .attr("x2", function(d) { return xScale(d.max_value); });
+           .merge(lines)
+           .transition().duration(500)
+           .attr("x1", function(d) { return xScale(0); })
+           .attr("x2", function(d) { return xScale(d.max_value); })
+           .attr("y1", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; })
+           .attr("y2", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; })
+           .attr("stroke", "rgb(244, 174, 164)")
+           .attr("stroke-width", 3);
 
        lines.exit().remove();
 
@@ -119,22 +112,16 @@ d3.csv("data/compare_with_parliament.csv").then(function(data){
         var point_local = svg.selectAll(".point-local")
             .data(filtered);
 
-        point_local
-            .transition().duration(500)
-            .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
-            .attr("cx", function (d, i) { return xScale(d.votes_local);  });
-
-
         point_local.enter().append("circle")
             .attr("class", "point-local")
+            .merge(point_local)
+            .transition().duration(500)
             .attr("r", 7)
             .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
+            .attr("cx", function (d, i) { return xScale(d.votes_local);  })
             .attr("fill", "rgb(236, 114, 99)")
             .attr("stroke", "rgb(244, 174, 164)")
             .attr("stroke-width", 3)
-            .attr("cx", function (d, i) { return xScale(0);  })
-            .transition().duration(500)
-            .attr("cx", function (d, i) { return xScale(d.votes_local);  });
 
         point_local.exit().remove();
 
@@ -144,19 +131,14 @@ d3.csv("data/compare_with_parliament.csv").then(function(data){
         var point_parl = svg.selectAll(".point-parliament")
             .data(filtered);
 
-        point_parl
-            .transition().duration(500)
-            .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
-            .attr("cx", function (d, i) { return xScale(d.votes_parlam);  });
-
        point_parl.enter().append("circle")
             .attr("class", "point-parliament")
+            .merge(point_parl)
             .attr("r", 4)
-            .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
-            .attr("cx", function (d, i) { return xScale(0);  })
-            .attr("fill", "grey")
             .transition().duration(500)
-            .attr("cx", function (d, i) { return xScale(d.votes_parlam);  });
+            .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
+            .attr("cx", function (d, i) { return xScale(d.votes_parlam);  })
+            .attr("fill", "grey");
 
        point_parl.exit().remove();
 
@@ -167,15 +149,10 @@ d3.csv("data/compare_with_parliament.csv").then(function(data){
         var diff_label = svg.selectAll(".diff-label")
             .data(filtered);
 
-        diff_label
-            .attr("y", function (d) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
-            .attr("x", function (d) { return xScale(d.max_value) + 10;  })
-            .transition().duration(500)
-            .text(function(d){ return d.difference });
-
-
         diff_label.enter().append("text")
             .attr("class", "diff-label")
+            .merge(diff_label)
+            .transition().duration(500)
             .attr("y", function (d) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
             .attr("x", function (d) { return xScale(d.max_value) + 10;  })
             .attr("fill", "grey")
@@ -183,33 +160,19 @@ d3.csv("data/compare_with_parliament.csv").then(function(data){
             .attr("text-anchor", "start")
             .attr("dy","0.35em");
 
-
         diff_label.exit().remove();
-
 
 
         /* Аннотація */
         d3.select("#anotation-1").remove();
-        // d3.select("#anotation-2").remove();
 
-        var anotation_1 = svg.append("text")
+       svg.append("text")
             .attr("id", "anotation-1")
             .attr("y",  yScale(filtered[0].oblast) + yScale.bandwidth()/2 - 10 )
             .attr("x", xScale(filtered[0].votes_local) + 10)
             .text("місцеві")
             .style("fill", "rgb(236, 114, 99)")
             .attr("text-anchor", "start");
-
-
-        // var anotation_2 = svg.append("text")
-        //     .attr("id", "anotation-2")
-        //     .attr("y",  yScale(filtered[0].oblast) + yScale.bandwidth()/2 - 10 )
-        //     .attr("x", xScale(filtered[0].votes_parlam) + 10)
-        //     .text("парламентські")
-        //     .style("fill", "#5D646F")
-        //     .attr("text-anchor", "end")
-
-
     }
 
 

@@ -209,39 +209,39 @@ body {
   padding: 0;
   font-family: 'Open Sans', sans-serif; }
 
-main {
+#title {
   max-width: 1800px;
   width: 96%;
   margin: auto;
   color: #333; }
   @media (max-width: 400px) {
-    main {
+    #title {
       display: block;
       width: 95%; } }
-  main h1 {
+  #title h1 {
     text-align: center;
     width: 60%;
     margin: 50px auto 20px auto;
     font-size: calc(25px + 2.5vw);
     line-height: 1.3; }
     @media (max-width: 800px) {
-      main h1 {
+      #title h1 {
         width: 90%;
         margin: 50px 0 20px 0; } }
-  main h3 {
+  #title h3 {
     width: 60%;
     margin: 50px auto 20px auto;
     font-size: 24px; }
     @media (max-width: 800px) {
-      main h3 {
+      #title h3 {
         width: 90%;
         margin: 50px 0 20px 0; } }
 
-.container {
+#map.container {
   width: 100%;
   height: 110vh; }
   @media (max-width: 1200px) {
-    .container {
+    #map.container {
       width: 100%;
       height: 60vh; } }
 
@@ -263,14 +263,18 @@ h2, h3, h4, h5, p {
       width: 90%; } }
 
 h2, h3 {
+  text-align: center;
   margin: auto; }
 
 h2 {
-  margin: 100px auto 30px auto; }
+  margin: 30px auto; }
 
 p {
   line-height: 1.6;
   font-size: 18px; }
+
+.subtitle {
+  text-align: center; }
 
 .buttons {
   margin: auto auto 100px auto;
@@ -290,60 +294,6 @@ button {
 button.active {
   background-color: #ec7263;
   color: white; }
-
-#schools, #example {
-  width: 100% !important;
-  margin: auto; }
-  @media (max-width: 812px) {
-    #schools, #example {
-      display: block; } }
-
-#schools_wrapper, #example_wrapper {
-  width: 60%;
-  margin: auto; }
-  @media (max-width: 812px) {
-    #schools_wrapper, #example_wrapper {
-      width: 90%;
-      margin: auto; } }
-
-#table_length, #schools_filter {
-  display: none; }
-
-@media (max-width: 800px) {
-  #schools > thead tr:nth-child(1) {
-    display: none; } }
-
-tr > td:nth-child(3), tr > td:nth-child(4) {
-  text-align: center; }
-
-@media (max-width: 812px) {
-  #schools > thead > tr > th:nth-child(3):before {
-    content: "Розмір школи: ";
-    font-weight: bold;
-    min-width: 120px !important;
-    display: inline-block; } }
-
-@media (max-width: 812px) {
-  #schools > thead > tr > th:nth-child(4):before {
-    content: "Потенційна кількість інфікованих: ";
-    font-weight: bold;
-    min-width: 120px !important;
-    display: inline-block; } }
-
-@media (max-width: 800px) {
-  table tr, th, td {
-    display: block; } }
-
-@media (max-width: 800px) {
-  tbody > tr:nth-child(even) {
-    background-color: wheat !important; } }
-
-thead > tr > th {
-  background-color: white; }
-
-thead > tr {
-  position: sticky;
-  top: 0; }
 
 select#region-to-show {
   font-size: 20px;
@@ -403,96 +353,38 @@ option {
 option[value='overview'] {
   font-weight: bold; }
 
-#map-guide {
-  font-size: 16px;
-  width: max-content;
-  max-width: 90%;
-  margin: 5px auto; }
-
-nav button {
-  cursor: pointer; }
-
-nav button.active {
-  background-color: #ed6746; }
-
-#pic-slider img {
-  display: block;
+div#slider {
+  min-height: 30px;
+  margin: 10px auto;
   width: 100%;
   max-width: 900px;
-  margin: 20px auto; }
+  position: relative; }
 
-div.torf-carusel {
-  margin: auto;
-  width: 100%;
-  max-width: 900px;
-  position: relative;
-  padding: 20px 0;
-  height: 600px; }
-  @media (max-height: 800px) {
-    div.torf-carusel {
-      height: 300px; } }
-
-div.torf-carusel > div.prev,
-div.torf-carusel > div.next {
+div.prev,
+div.next {
   position: absolute;
   z-index: 2;
   top: -2%;
   width: 30px;
-  height: 40px;
+  height: 30px;
   cursor: pointer; }
 
-div.torf-carusel > div.prev {
+div.prev {
   left: 40%; }
-  div.torf-carusel > div.prev img {
+  div.prev img {
     transform: rotate(180deg); }
 
-div.torf-carusel > div.next {
+div.next {
   right: 40%; }
-
-ul.torf-carusel-list {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  position: relative;
-  height: 100%;
-  max-width: 100%; }
-
-li.torf-carusel-item {
-  margin-left: 0;
-  display: flex;
-  min-width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: 0.6s ease-in-out; }
-  li.torf-carusel-item .item-wrapper {
-    display: flex;
-    align-items: flex-start;
-    margin: 0 auto;
-    height: 100%; }
-    li.torf-carusel-item .item-wrapper img {
-      width: 100%;
-      max-width: 900px; }
-
-li.torf-carusel-item.visible {
-  opacity: 1;
-  transition: 0.6s ease-in-out; }
-
-li.torf-carusel-item > img {
-  display: block;
-  max-width: 100%;
-  margin: auto;
-  max-height: 100%; }
 
 p.carousel-caption {
   margin: 5px auto; }
 
-#compare {
+#compare, #bar-chart {
   max-width: 900px;
   margin: auto;
   width: 100%; }
-  #compare img {
+  #compare img, #bar-chart img {
     width: 100%;
     margin-bottom: 100px; }
 
@@ -509,5 +401,11 @@ g.tick line {
 .draw-lollipop.active {
   background-color: #ec7263;
   color: white; }
+
+#no-data {
+  font-weight: bold;
+  text-align: center;
+  display: none;
+  margin-bottom: 50px; }
 
 /*# sourceMappingURL=styles.css.map */
