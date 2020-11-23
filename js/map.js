@@ -195,10 +195,13 @@ map.on('load', function () {
                     "silver"
                 ],
                 "fill-opacity": 0.8,
-                'fill-outline-color': [
+                'fill-outline-color':
+                    [
                     'case',
-                    ['boolean', ['feature-state', 'hover'], false],
-                    "transparent",
+                    ['==', source, 'oblasts'],
+                    "white",
+                     ['==', source, 'rayons'],
+                     "white",
                     "transparent"
                 ]
             }
