@@ -34,65 +34,48 @@ var map = new mapboxgl.Map({
 
 map.scrollZoom.disable();
 
-// map.on('load', function () {
-//     map.loadImage(
-//         'img/logo_texty.gif',
-//         function (error, image) {
-//             if (error) throw error;
-//             map.addImage('logo', image);
-//             map.addSource('point', {
-//                 'type': 'geojson',
-//                 'data': {
-//                     'type': 'FeatureCollection',
-//                     'features': [
-//                         {
-//                             'type': 'Feature',
-//                             'geometry': {
-//                                 'type': 'Point',
-//                                 'coordinates': [25, 46]
-//                             }
-//                         }
-//                     ]
-//                 }
-//             });
-//             map.addLayer({
-//                 'id': 'points',
-//                 'type': 'symbol',
-//                 'source': 'point',
-//                 'layout': {
-//                     'icon-image': 'logo',
-//                     'icon-size': 0.1
-//                 }
-//             });
-//         }
-//     );
-// });
 
 
-class MyCustomControl {
-    onAdd(map){
-        this.map = map;
-        this.container = document.createElement('div');
-        this.container.className = 'my-custom-control';
-        this.container.textContent = 'My custom control';
-        return this.container;
-    }
-    onRemove(){
-        this.container.parentNode.removeChild(this.container);
-        this.map = undefined;
-    }
-}
+//лого текстів на карті
+map.on('load', function () {
+    map.loadImage(
+        'img/logo_texty.gif',
+        function (error, image) {
+            if (error) throw error;
+            map.addImage('logo', image);
+            map.addSource('point', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': [
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [25, 46]
+                            }
+                        }
+                    ]
+                }
+            });
+            map.addLayer({
+                'id': 'points',
+                'type': 'symbol',
+                'source': 'point',
+                'layout': {
+                    'icon-image': 'logo',
+                    'icon-size': 0.1
+                }
+            });
+        }
+    );
+});
 
-const myCustomControl = new MyCustomControl();
-
-map.addControl(myCustomControl);
-
-
-
-
-
+//списки для dropdown
 var otg_options;
 var rayons_options;
+var oblasts_options;
+
 
 Promise.all([
         d3.csv("data/otg_parties_list.csv"),
@@ -103,12 +86,17 @@ Promise.all([
 
     parties_list[0].forEach(function(d){ d.dep_amount = +d.dep_amount; });
     parties_list[1].forEach(function(d){ d.dep_amount = +d.dep_amount; });
+    parties_list[2].forEach(function(d){ d.dep_amount = +d.dep_amount; });
 
     otg_options = parties_list[0]
         .filter(function(d){ return d.dep_amount > 0 })
         .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
 
     rayons_options = parties_list[1]
+        .filter(function(d){ return d.dep_amount > 0 })
+        .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
+
+    oblasts_options = parties_list[2]
         .filter(function(d){ return d.dep_amount > 0 })
         .sort(function(a, b){ return d3.descending(a.dep_amount, b.dep_amount) });
 
@@ -127,8 +115,6 @@ var popup;
 
 /* ------- карта України ------- */
 map.on('load', function () {
-
-
     var layers = map.getStyle().layers;
     var firstSymbolId;
 
@@ -325,26 +311,31 @@ map.on('load', function () {
         removeLayers();
         if(show_otg === true){
             if(selected != "overview"){
-                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
                 redrawSelectedParty(selected, "otg", "otg_data", "local_elections_otg_4326");
                 $("#legend_2").css("display", "none");
                 $("#legend_1").css("display", "flex");
             } else {
-                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
                 drawMain("otg_data", "otg", "local_elections_otg_4326");
                 $("#legend_1").css("display", "none");
                 $("#legend_2").css("display", "flex");
             }
         } else if (show_oblasts === true){
+            if(selected != "overview"){
+                redrawSelectedParty(selected, "oblasts", "oblasts_data", "local_elections_oblasts_4326");
+                $("#legend_2").css("display", "none");
+                $("#legend_1").css("display", "flex");
+            } else {
+                drawMain("oblasts_data", "oblasts","local_elections_oblasts_4326");
+                $("#legend_1").css("display", "none");
+                $("#legend_2").css("display", "flex");
+            }
 
         } else if (show_rayons === true ){
             if(selected != "overview"){
-                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, скільки депутатів від обраної партії пройшли');
                 redrawSelectedParty(selected, "rayons", "rayons_data", "local_elections_rayons_4326");
                 $("#legend_2").css("display", "none");
                 $("#legend_1").css("display", "flex");
             } else {
-                $("#map-guide").html('Клікніть на ОТГ, щоб подивитись, які партії пройшли і кількість депутатів');
                 drawMain("rayons_data", "rayons","local_elections_rayons_4326");
                 $("#legend_1").css("display", "none");
                 $("#legend_2").css("display", "flex");
@@ -360,45 +351,25 @@ map.on('load', function () {
         if(show_oblasts === true){
             return false
         } else {
-            d3.selectAll(".map-switcher").classed("active", false);
-            d3.select(this).classed("active", true);
-            $('#select_party').val('overview').trigger('change');
-            $('select').prop('disabled', true);
-            $(".select2").css("opacity", 0.3);
+            redrawOptionList(this, oblasts_options);
+
             show_oblasts = true;
             show_otg  = false;
             show_rayons = false;
-            removeLayers();
+
             drawMain("oblasts_data", "oblasts","local_elections_oblasts_4326");
         }
-
-
     });
 
     $("#show_otg").on("click", function() {
         if(show_otg === true){
             return false
         } else {
-            d3.selectAll(".map-switcher").classed("active", false);
-            d3.select(this).classed("active", true);
+            redrawOptionList(this, otg_options);
 
-            d3.selectAll("option.auto").remove();
-            d3.select("#select_party")
-                .selectAll("option.auto")
-                .data(otg_options)
-                .enter()
-                .append("option")
-                .attr("class", "auto")
-                .attr("value", function(d){ return "results_"+d.party_name })
-                .text(function(d){ return d.party_name });
-
-            $('#select_party').val('overview').trigger('change');
-            $('select').prop('disabled', false);
-            $(".select2").css("opacity", 1);
             show_otg = true;
             show_oblasts = false;
             show_rayons = false;
-            removeLayers();
 
             drawMain("otg_data", "otg", "local_elections_otg_4326");
         }
@@ -408,31 +379,36 @@ map.on('load', function () {
         if(show_rayons === true){
             return false
         } else {
+            redrawOptionList(this, rayons_options);
 
-            d3.selectAll(".map-switcher").classed("active", false);
-            d3.select(this).classed("active", true);
-
-            d3.selectAll("option.auto").remove();
-            d3.select("#select_party")
-                .selectAll("option.auto")
-                .data(rayons_options)
-                .enter()
-                .append("option")
-                .attr("class", "auto")
-                .attr("value", function(d){ return "results_"+d.party_name })
-                .text(function(d){ return d.party_name });
-
-
-            $('#select_party').val('overview').trigger('change');
-            $('select').prop('disabled', false);
-            $(".select2").css("opacity", 1);
             show_rayons = true;
             show_otg = false;
             show_oblasts = false;
-            removeLayers();
             drawMain("rayons_data", "rayons", "local_elections_rayons_4326");
         }
     });
+
+
+    // функція перемальовки списку партій в селекті
+    function redrawOptionList(active_button, df){
+        d3.selectAll(".map-switcher").classed("active", false);
+        d3.select(active_button).classed("active", true);
+
+        d3.selectAll("option.auto").remove();
+        d3.select("#select_party")
+            .selectAll("option.auto")
+            .data(df)
+            .enter()
+            .append("option")
+            .attr("class", "auto")
+            .attr("value", function(d){ return "results_"+d.party_name })
+            .text(function(d){ return d.party_name });
+
+        $('#select_party').val('overview').trigger('change');
+
+        removeLayers();
+    }
+
 
 
 
@@ -450,8 +426,7 @@ String.prototype.capitalize = function() {
 
 
 $('#downloadLink').click(function() {
-    var img = map.getCanvas().toDataURL('image/png');
-    this.href = img
+    this.href = map.getCanvas().toDataURL('image/png');
 });
 
 
