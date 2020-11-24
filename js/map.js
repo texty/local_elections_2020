@@ -9,20 +9,20 @@ var show_rayons = false;
 
 var stops_values = [
     [0, '#ffffff'],
-    [1, '#fef0d9'],
-    [4, '#fdd49e'],
-    [8, "#fdbb84"],
-    [12, "#fc8d59"],
-    [18, "#ef6548"],
-    [25, "#d7301f"],
-    [50, "#990000"]
+    [10, '#fef0d9'],
+    [20, '#fdd49e'],
+    [30, "#fdbb84"],
+    [40, "#fc8d59"],
+    [50, "#ef6548"],
+    [60, "#d7301f"],
+    [70, "#990000"]
 ];
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZHJpbWFjdXMxODIiLCJhIjoiWGQ5TFJuayJ9.6sQHpjf_UDLXtEsz8MnjXw';
 var map = new mapboxgl.Map({
     container: 'map',
     minZoom: 4,
-    maxZoom: 10,
+    maxZoom: 9,
     hash: false,
     tap: false,
     attributionControl: false,
@@ -62,11 +62,7 @@ map.on('load', function () {
                 'layout': {
                     'icon-image': 'logo',
                     'icon-size': 0.1
-
-                    //'icon-opacity': 0.6
                 }
-
-
             });
         }
     );
@@ -80,7 +76,8 @@ var rayons_options;
 
 Promise.all([
         d3.csv("data/otg_parties_list.csv"),
-        d3.csv("data/rayons_parties_list.csv")
+        d3.csv("data/rayons_parties_list.csv"),
+        d3.csv("data/oblasts_parties_list.csv")
     ]).then(function(parties_list){
 
 
