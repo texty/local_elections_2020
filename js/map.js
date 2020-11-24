@@ -34,39 +34,59 @@ var map = new mapboxgl.Map({
 
 map.scrollZoom.disable();
 
-map.on('load', function () {
-    map.loadImage(
-        'img/logo_texty.gif',
-        function (error, image) {
-            if (error) throw error;
-            map.addImage('logo', image);
-            map.addSource('point', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': [
-                        {
-                            'type': 'Feature',
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': [25, 46]
-                            }
-                        }
-                    ]
-                }
-            });
-            map.addLayer({
-                'id': 'points',
-                'type': 'symbol',
-                'source': 'point',
-                'layout': {
-                    'icon-image': 'logo',
-                    'icon-size': 0.1
-                }
-            });
-        }
-    );
-});
+// map.on('load', function () {
+//     map.loadImage(
+//         'img/logo_texty.gif',
+//         function (error, image) {
+//             if (error) throw error;
+//             map.addImage('logo', image);
+//             map.addSource('point', {
+//                 'type': 'geojson',
+//                 'data': {
+//                     'type': 'FeatureCollection',
+//                     'features': [
+//                         {
+//                             'type': 'Feature',
+//                             'geometry': {
+//                                 'type': 'Point',
+//                                 'coordinates': [25, 46]
+//                             }
+//                         }
+//                     ]
+//                 }
+//             });
+//             map.addLayer({
+//                 'id': 'points',
+//                 'type': 'symbol',
+//                 'source': 'point',
+//                 'layout': {
+//                     'icon-image': 'logo',
+//                     'icon-size': 0.1
+//                 }
+//             });
+//         }
+//     );
+// });
+
+
+class MyCustomControl {
+    onAdd(map){
+        this.map = map;
+        this.container = document.createElement('div');
+        this.container.className = 'my-custom-control';
+        this.container.textContent = 'My custom control';
+        return this.container;
+    }
+    onRemove(){
+        this.container.parentNode.removeChild(this.container);
+        this.map = undefined;
+    }
+}
+
+const myCustomControl = new MyCustomControl();
+
+map.addControl(myCustomControl);
+
 
 
 
