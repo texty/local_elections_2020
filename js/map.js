@@ -176,7 +176,7 @@ map.on('load', function () {
                     html += d.party;
                     html += "  </td>";
                     html += "  <td>";
-                    html += d.amount;
+                    html += d.amount + "%";
                     html += "  </td>";
                     html += " </tr>";
                 });
@@ -279,7 +279,7 @@ map.on('load', function () {
 
         map.on('click', id, function(e) {
             map.getCanvas().style.cursor = 'pointer';
-            popup.setHTML(e.features[0].properties["results_name"].capitalize() + ": " + e.features[0].properties[choropleth_column])
+            popup.setHTML(e.features[0].properties["results_name"].capitalize() + ": " + e.features[0].properties[choropleth_column] + "%")
 
         });
 
