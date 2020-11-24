@@ -16,16 +16,29 @@ Promise.all([
 
     /*--- lollipop chart ---*/
 
+    // var local_var = "votes_local";
+    // var parlam_var = "votes_parlam";
+    // var max_var = "max_value";
+
+    var local_var = "percent_local";
+    var parlam_var = "percent_parlam";
+    var max_var = "max_percent";
+
     const margin = {top: 40, right: 100, bottom: 30, left: 150};
     const width = d3.select("#compare").node().getBoundingClientRect().width - margin.left - margin.right;
-    const height = 500 - margin.top - margin.bottom;
+    const height = 600 - margin.top - margin.bottom;
 
     data[0].forEach(function(d){
-        d.max_value = +d.max_value;
+        d.percent_local = +d.percent_local;
+        d.percent_parlam = +d.percent_parlam;
+        d.max_percent = +d.max_percent;
         d.votes_local = +d.votes_local;
         d.votes_parlam = +d.votes_parlam;
+        d.max_value = +d.max_value;
         d.difference = +d.difference;
     });
+
+    data[0] = data[0].sort(function(a,b){ return (a[local_var] - a[parlam_var]) - (b[local_var] - b[parlam_var])});
 
 
     const compare = d3.select("#compare")
@@ -69,7 +82,8 @@ Promise.all([
        //Update the scales
        xScale
             .range([0, new_width])
-            .domain([0, d3.max(filtered, function (d) { return d.max_value;  })]);
+            //.domain([0, d3.max(filtered, function (d) { return d[max_var];  })]);
+           .domain([0,100]);
 
        yScale
             .range([0, height])
@@ -80,7 +94,7 @@ Promise.all([
             .transition()
             .duration(500)
             .call(d3.axisLeft(yScale)
-                .tickSize(-width)
+                .tickSize(0)
                 .tickSizeOuter(0)
                 .tickFormat(function(d){ return d.replace("область", "")})
             );
@@ -93,6 +107,7 @@ Promise.all([
                 .tickPadding(10)
                 .tickSizeOuter(0)
                 .tickSizeInner(-height)
+                .tickFormat(function(d){ return d + "%"})
             );
 
 
@@ -106,11 +121,12 @@ Promise.all([
            .merge(lines)
            .transition().duration(500)
            .attr("x1", function(d) { return xScale(0); })
-           .attr("x2", function(d) { return xScale(d.max_value); })
+           .attr("x2", function(d) { return xScale(d[max_var]); })
            .attr("y1", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; })
            .attr("y2", function(d) { return yScale(d.oblast) + yScale.bandwidth()/2; })
            .attr("stroke", "rgb(244, 174, 164)")
            .attr("stroke-width", 3);
+
 
        lines.exit().remove();
 
@@ -125,7 +141,7 @@ Promise.all([
             .transition().duration(500)
             .attr("r", 7)
             .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
-            .attr("cx", function (d, i) { return xScale(d.votes_local);  })
+            .attr("cx", function (d, i) { return xScale(d[local_var]);  })
             .attr("fill", "rgb(236, 114, 99)")
             .attr("stroke", "rgb(244, 174, 164)")
             .attr("stroke-width", 3);
@@ -144,7 +160,7 @@ Promise.all([
             .attr("r", 4)
             .transition().duration(500)
             .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
-            .attr("cx", function (d, i) { return xScale(d.votes_parlam);  })
+            .attr("cx", function (d, i) { return xScale(d[parlam_var]);  })
             .attr("fill", "grey");
 
        point_parl.exit().remove();
@@ -161,9 +177,19 @@ Promise.all([
             .merge(diff_label)
             .transition().duration(500)
             .attr("y", function (d) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
-            .attr("x", function (d) { return xScale(d.max_value) + 10;  })
+            .attr("x", function (d) { return xScale(d[max_var]) + 10;  })
             .attr("fill", "grey")
-            .text(function(d){ return d.difference < 0 ? d.difference : "+" + d.difference  })
+            //.text(function(d){ return d.difference < 0 ? d.difference : "+" + d.difference  })
+            .text(function(d){
+                let pd = (d.percent_local - d.percent_parlam).toFixed(1);
+                let pd_content = pd < 0 ? pd + "%" : "+" + pd  + "%";
+
+                let vd =  Math.round(d.votes_local - d.votes_parlam);
+                let vd_content = vd < 0 ? vd + " гол." : "+" + vd  + " гол.";
+
+
+                return pd_content + " (" + vd_content + ")"
+            })
             .attr("text-anchor", "start")
             .attr("dy","0.35em");
 
@@ -175,8 +201,8 @@ Promise.all([
 
         compare.append("text")
             .attr("id", "anotation-1")
-            .attr("y",  yScale(filtered[0].oblast) + yScale.bandwidth()/2 - 10 )
-            .attr("x", xScale(filtered[0].votes_local) + 10)
+            .attr("y",  yScale(filtered[0].oblast) + yScale.bandwidth()/2 - 15 )
+            .attr("x", xScale(filtered[0][local_var]) + 10)
             .text("місцеві")
             .style("fill", "rgb(236, 114, 99)")
             .attr("text-anchor", "start");
@@ -267,7 +293,7 @@ Promise.all([
                 .replace("ПОЛІТИЧНА ПАРТІЯ ", "")
                 .replace("ВСЕУКРАЇНСЬКЕ ОБ’ЄДНАННЯ", "ВО")
                 .replace(" (УКРАЇНСЬКИЙ ДЕМОКРАТИЧНИЙ АЛЬЯНС ЗА РЕФОРМИ) ВІТАЛІЯ КЛИЧКА", "")
-                .replace("ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ", "ОПЗЖ")
+                .replace("ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ", "ОПЗЖ");
                 //.replace('"', '').replace('"', '')
             })
 
