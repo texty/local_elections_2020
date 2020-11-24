@@ -28,10 +28,52 @@ var map = new mapboxgl.Map({
     attributionControl: false,
     style: 'style3.json',
     center: [31.5, 48.9],
+    preserveDrawingBuffer: true,
     zoom: default_zoom_u // starting zoom
 });
 
 map.scrollZoom.disable();
+
+map.on('load', function () {
+    map.loadImage(
+        'img/logo_texty.gif',
+        function (error, image) {
+            if (error) throw error;
+            map.addImage('logo', image);
+            map.addSource('point', {
+                'type': 'geojson',
+                'data': {
+                    'type': 'FeatureCollection',
+                    'features': [
+                        {
+                            'type': 'Feature',
+                            'geometry': {
+                                'type': 'Point',
+                                'coordinates': [25, 46]
+                            }
+                        }
+                    ]
+                }
+            });
+            map.addLayer({
+                'id': 'points',
+                'type': 'symbol',
+                'source': 'point',
+                'layout': {
+                    'icon-image': 'logo',
+                    'icon-size': 0.1
+
+                    //'icon-opacity': 0.6
+                }
+
+
+            });
+        }
+    );
+});
+
+
+
 
 var otg_options;
 var rayons_options;
@@ -184,17 +226,17 @@ map.on('load', function () {
                 'fill-color': [
                     "match",
                     ["get", "results_max_party"],
-                    'ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"', "#d53e4f",
-                    'ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"', "#33a02c",
-                    'ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"', "#3288bd",
-                    'політична партія Всеукраїнське об’єднання "Батьківщина"', "#fdae61",
-                    'ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"', "#7570b3",
-                    'Самовисування', "yellow",
+                    'ПОЛІТИЧНА ПАРТІЯ "ЄВРОПЕЙСЬКА СОЛІДАРНІСТЬ"', "#e97480",
+                    'ПОЛІТИЧНА ПАРТІЯ "СЛУГА НАРОДУ"', "#83e49b",
+                    'ПОЛІТИЧНА ПАРТІЯ "ОПОЗИЦІЙНА ПЛАТФОРМА – ЗА ЖИТТЯ"', "#a4aeca",
+                    'політична партія Всеукраїнське об’єднання "Батьківщина"', "#ffbfb1",
+                    'ПОЛІТИЧНА ПАРТІЯ "ЗА МАЙБУТНЄ"', "#b887af",
+                    'Самовисування', "#ffff97",
                     'NA', 'transparent',
-                    'multiple', '#4d4d4d',
-                    "silver"
+                    'multiple', '#969797',
+                    "#e1e2e1"
                 ],
-                "fill-opacity": 0.8,
+                //"fill-opacity": 0.8,
                 'fill-outline-color':
                     [
                     'case',
@@ -388,5 +430,12 @@ map.on('load', function () {
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
 };
+
+
+$('#downloadLink').click(function() {
+    var img = map.getCanvas().toDataURL('image/png');
+    this.href = img
+});
+
 
 
