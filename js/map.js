@@ -1,7 +1,7 @@
 /**
  * Created by yevheniia on 09.06.20.
  */
-var default_zoom_u = window.innerWidth > 800 ? 6 : 5;
+var default_zoom_u = window.innerWidth > 800 ? 5 : 4;
 
 var show_oblasts = false;
 var show_otg = true;
