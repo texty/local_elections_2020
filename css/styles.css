@@ -403,4 +403,12 @@ g.tick line {
   display: none;
   margin-bottom: 50px; }
 
+#static-maps {
+  margin-top: 80px; }
+  #static-maps img {
+    display: block;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1200px; }
+
 /*# sourceMappingURL=styles.css.map */
