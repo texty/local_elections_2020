@@ -483,6 +483,7 @@ Promise.all([
     d3.select(window).on('resize', function() {
         drawPops("Слуга народу");
         drawBarChart("Київська");
+        drawCoaliciya();
     });
 
 

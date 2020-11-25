@@ -411,4 +411,15 @@ g.tick line {
     width: 90%;
     max-width: 1200px; }
 
+.my-custom-control {
+  color: #fff;
+  font-size: 25px;
+  background: #000;
+  padding: 8px;
+  border-radius: 4px;
+  margin: 8px; }
+
+#downloadLink:hover {
+  background-color: #ed6746; }
+
 /*# sourceMappingURL=styles.css.map */

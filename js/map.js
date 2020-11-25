@@ -1,6 +1,3 @@
-/**
- * Created by yevheniia on 09.06.20.
- */
 var default_zoom_u = window.innerWidth > 800 ? 5 : 4;
 
 var show_oblasts = false;
@@ -8,7 +5,7 @@ var show_otg = true;
 var show_rayons = false;
 
 var stops_values = [
-    [0, '#ffffff'],
+    [0, 'transparent'],
     [10, '#fef0d9'],
     [20, '#fdd49e'],
     [30, "#fdbb84"],
@@ -27,6 +24,7 @@ var map = new mapboxgl.Map({
     tap: false,
     attributionControl: false,
     style: 'style3.json',
+    //style:'https://raw.githubusercontent.com/texty/covid_schools_map/master/dark_matter.json',
     center: [31.5, 48.9],
     preserveDrawingBuffer: true,
     zoom: default_zoom_u // starting zoom
@@ -37,41 +35,43 @@ map.scrollZoom.disable();
 
 
 
+//
+// //лого текстів на карті
+// map.on('load', function () {
+//     map.loadImage(
+//         'img/logo_texty.gif',
+//         function (error, image) {
+//             if (error) throw error;
+//             map.addImage('logo', image);
+//             map.addSource('point', {
+//                 'type': 'geojson',
+//                 'data': {
+//                     'type': 'FeatureCollection',
+//                     'features': [
+//                         {
+//                             'type': 'Feature',
+//                             'geometry': {
+//                                 'type': 'Point',
+//                                 'coordinates': [25, 46]
+//                             }
+//                         }
+//                     ]
+//                 }
+//             });
+//             map.addLayer({
+//                 'id': 'points',
+//                 'type': 'symbol',
+//                 'source': 'point',
+//                 'layout': {
+//                     'icon-image': 'logo',
+//                     'icon-size': 0.1
+//                 }
+//             });
+//         }
+//     );
+// });
 
-//лого текстів на карті
-map.on('load', function () {
-    map.loadImage(
-        'img/logo_texty.gif',
-        function (error, image) {
-            if (error) throw error;
-            map.addImage('logo', image);
-            map.addSource('point', {
-                'type': 'geojson',
-                'data': {
-                    'type': 'FeatureCollection',
-                    'features': [
-                        {
-                            'type': 'Feature',
-                            'geometry': {
-                                'type': 'Point',
-                                'coordinates': [25, 46]
-                            }
-                        }
-                    ]
-                }
-            });
-            map.addLayer({
-                'id': 'points',
-                'type': 'symbol',
-                'source': 'point',
-                'layout': {
-                    'icon-image': 'logo',
-                    'icon-size': 0.1
-                }
-            });
-        }
-    );
-});
+
 
 //списки для dropdown
 var otg_options;
@@ -128,13 +128,14 @@ map.on('load', function () {
     }
 
 
+    /* Тимчасова окупована територія */
     map.addSource("tot", {
         "type": "geojson",
         'data': "data/tot_teritory.json"
     });
 
 
-    // Declare the image
+    // Вантажимо паттерн для окупованої території
     map.loadImage(
         'img/pattern.png',
         function (err, image) {
@@ -145,24 +146,24 @@ map.on('load', function () {
         }
     );
 
-            map.addLayer({
-                'id': 'pattern-layer',
-                'type': 'fill',
-                'source': 'tot',
-                'paint': {
-                    'fill-pattern': 'pattern',
-                     'fill-opacity': 0.1
-                }
-            }, firstSymbolId);
+
+    /* додаємо патерн до шара з ТОТ */
+    map.addLayer({
+        'id': 'pattern-layer',
+        'type': 'fill',
+        'source': 'tot',
+        'paint': {
+            'fill-pattern': 'pattern',
+             'fill-opacity': 0.1
+        }
+    }, firstSymbolId);
 
 
 
 
 
 
-
-
-    //векторні тайли
+    /*  векторні тайли з результатами виборів */
     map.addSource('otg', {
         type: 'vector',
         tiles: ["https://texty.github.io/local_elections_2020/tiles/otg/{z}/{x}/{y}.pbf"]
@@ -182,17 +183,7 @@ map.on('load', function () {
 
 
 
-
-
-    // var mapcanvas = document.querySelector('canvas');
-    // var ctx = mapcanvas.getContext('2d');
-    // console.log(ctx);
-    //
-    // var base_image = new Image();
-    // base_image.src = 'img/instagram.png';
-    // ctx.drawImage(base_image, 0, 10,100,100);
-
-
+    /*  попапи */
     function drawPopup(e) {
         if (e.features[0].properties["results_max_party"] === 'NA') {
             map.getCanvas().style.cursor = 'pointer';
@@ -247,6 +238,7 @@ map.on('load', function () {
                 .addTo(map);
         }
     }
+
 
 
     function removeLayers(){
@@ -348,11 +340,31 @@ map.on('load', function () {
     }
 
     map.on('sourcedata', sourceCallback);
-
-
     drawMain("otg_data", "otg", "local_elections_otg_4326");
 
 
+    // функція перемальовки списку партій в селекті
+    function redrawOptionList(active_button, df){
+        d3.selectAll(".map-switcher").classed("active", false);
+        d3.select(active_button).classed("active", true);
+
+        d3.selectAll("option.auto").remove();
+        d3.select("#select_party")
+            .selectAll("option.auto")
+            .data(df)
+            .enter()
+            .append("option")
+            .attr("class", "auto")
+            .attr("value", function(d){ return "results_"+d.party_name })
+            .text(function(d){ return d.party_name });
+
+        $('#select_party').val('overview').trigger('change');
+
+        removeLayers();
+    }
+
+
+    /* переключалка в селект-dropdown */
     $("#select_party").on("change", function(){
         $('.mapboxgl-popup').remove();
         let selected = $("#select_party").val();
@@ -395,6 +407,8 @@ map.on('load', function () {
     });
 
 
+
+    /* переключалка між ОТГ, районами та областями */
     $("#show_oblasts").on("click", function(){
         if(show_oblasts === true){
             return false
@@ -440,31 +454,28 @@ map.on('load', function () {
     });
 
 
-    // функція перемальовки списку партій в селекті
-    function redrawOptionList(active_button, df){
-        d3.selectAll(".map-switcher").classed("active", false);
-        d3.select(active_button).classed("active", true);
-
-        d3.selectAll("option.auto").remove();
-        d3.select("#select_party")
-            .selectAll("option.auto")
-            .data(df)
-            .enter()
-            .append("option")
-            .attr("class", "auto")
-            .attr("value", function(d){ return "results_"+d.party_name })
-            .text(function(d){ return d.party_name });
-
-        $('#select_party').val('overview').trigger('change');
-
-        removeLayers();
-    }
-
-
-
-
     var nav = new mapboxgl.NavigationControl();
     map.addControl(nav, 'top-left');
+
+
+    //logo texty to control
+
+    class MyCustomControl {
+        onAdd(map){
+            this.map = map;
+            this.container = document.createElement('div');
+            this.container.className = 'my-custom-control';
+            this.container.textContent = 'TEXTY.ORG.UA';
+            return this.container;
+        }
+        onRemove(){
+            this.container.parentNode.removeChild(this.container);
+            this.map = undefined;
+        }
+    }
+
+    const myCustomControl = new MyCustomControl();
+    map.addControl(myCustomControl);
 
 }); //end of Ukraine map
 
@@ -476,9 +487,31 @@ String.prototype.capitalize = function() {
 };
 
 
+function download(dataurl, filename) {
+    var a = document.createElement("a");
+    a.href = dataurl;
+    a.setAttribute("download", filename);
+    a.click();
+}
+
+
+
 $('#downloadLink').click(function() {
-    this.href = map.getCanvas().toDataURL('image/png');
+    let but = this;
+    html2canvas($("#map"), {
+        onrendered: function (canvas) {
+            let imageurl = canvas.toDataURL('image/png');
+            but.href =  canvas.toDataURL('image/png');
+            download(imageurl, "map.png");
+
+        }
+    })
 });
+
+/* завантаження карти по кліку */
+// $('#downloadLink').click(function() {
+//     this.href = map.getCanvas().toDataURL('image/png');
+// });
 
 
 
