@@ -361,6 +361,7 @@ map.on('load', function () {
         if(show_oblasts === true){
             return false
         } else {
+            d3.select("#self-proposed").style("display", "none");
             redrawOptionList(this, oblasts_options);
 
             show_oblasts = true;
@@ -375,6 +376,7 @@ map.on('load', function () {
         if(show_otg === true){
             return false
         } else {
+            d3.select("#self-proposed").style("display", "flex");
             redrawOptionList(this, otg_options);
 
             show_otg = true;
@@ -389,6 +391,7 @@ map.on('load', function () {
         if(show_rayons === true){
             return false
         } else {
+            d3.select("#self-proposed").style("display", "none");
             redrawOptionList(this, rayons_options);
 
             show_rayons = true;
