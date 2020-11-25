@@ -147,7 +147,9 @@ Promise.all([
         point_local.enter().append("circle")
             .attr("class", "point-local tip")
             .merge(point_local)
+
             .transition().duration(500)
+
             .attr("r", 7)
             .attr("cy", function (d, i) { return yScale(d.oblast) + yScale.bandwidth()/2;  })
             .attr("cx", function (d, i) { return xScale(d[local_var]);  })
@@ -156,11 +158,12 @@ Promise.all([
             .attr("stroke-width", 3)
             .attr("data-tippy-content", function(d){
                 let vd =  Math.round(d.votes_local - d.votes_parlam);
-                let vd_content = vd < 0 ? nFormat(vd) + " голосів" : "+" + nFormat(vd)  + " голосів";
+                let vd_content = vd < 0 ? nFormat(vd) + " голосів" : "+ " + nFormat(vd)  + " голосів";
 
                 return vd_content;
 
-            });
+            })
+            ;
 
         point_local.exit().remove();
 

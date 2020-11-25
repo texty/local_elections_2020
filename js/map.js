@@ -128,6 +128,40 @@ map.on('load', function () {
     }
 
 
+    map.addSource("tot", {
+        "type": "geojson",
+        'data': "data/tot_teritory.json"
+    });
+
+
+    // Declare the image
+    map.loadImage(
+        'img/pattern.png',
+        function (err, image) {
+            if (err) throw err;
+
+            map.addImage('pattern', image);
+
+        }
+    );
+
+            map.addLayer({
+                'id': 'pattern-layer',
+                'type': 'fill',
+                'source': 'tot',
+                'paint': {
+                    'fill-pattern': 'pattern',
+                     'fill-opacity': 0.1
+                }
+            }, firstSymbolId);
+
+
+
+
+
+
+
+
     //векторні тайли
     map.addSource('otg', {
         type: 'vector',
@@ -145,6 +179,10 @@ map.on('load', function () {
         type: 'vector',
         tiles: ["https://texty.github.io/local_elections_2020/tiles/rayons/{z}/{x}/{y}.pbf"]
     });
+
+
+
+
 
     // var mapcanvas = document.querySelector('canvas');
     // var ctx = mapcanvas.getContext('2d');
