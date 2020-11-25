@@ -136,7 +136,7 @@ Promise.all([
             .data(filtered);
 
         point_local.enter().append("circle")
-            .attr("class", "point-local")
+            .attr("class", "point-local tip")
             .merge(point_local)
             .transition().duration(500)
             .attr("r", 7)
@@ -144,7 +144,14 @@ Promise.all([
             .attr("cx", function (d, i) { return xScale(d[local_var]);  })
             .attr("fill", "rgb(236, 114, 99)")
             .attr("stroke", "rgb(244, 174, 164)")
-            .attr("stroke-width", 3);
+            .attr("stroke-width", 3)
+            .attr("data-tippy-content", function(d){
+                let vd =  Math.round(d.votes_local - d.votes_parlam);
+                let vd_content = vd < 0 ? vd + " голосів" : "+" + vd  + " голосів";
+
+                return vd_content;
+
+            });
 
         point_local.exit().remove();
 
@@ -188,7 +195,7 @@ Promise.all([
                 let vd_content = vd < 0 ? vd + " гол." : "+" + vd  + " гол.";
 
 
-                return pd_content + " (" + vd_content + ")"
+                return pd_content
             })
             .attr("text-anchor", "start")
             .attr("dy","0.35em");
@@ -353,7 +360,18 @@ Promise.all([
     d3.select(window).on('resize', function() {
         drawPops("Слуга народу");
         drawBarChart("Київська");
-    })
+    });
+
+
+    tippy('.tip', {
+        allowHTML: true,
+        // content: 'Global content',
+        duration: 0,
+        onShow(tip) {
+            tip.setContent(tip.reference.getAttribute('data-tippy-content'))
+        }
+
+    });
 
 
 });

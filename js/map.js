@@ -36,6 +36,8 @@ map.scrollZoom.disable();
 
 
 
+
+
 //лого текстів на карті
 map.on('load', function () {
     map.loadImage(
@@ -143,6 +145,14 @@ map.on('load', function () {
         type: 'vector',
         tiles: ["https://texty.github.io/local_elections_2020/tiles/rayons/{z}/{x}/{y}.pbf"]
     });
+
+    // var mapcanvas = document.querySelector('canvas');
+    // var ctx = mapcanvas.getContext('2d');
+    // console.log(ctx);
+    //
+    // var base_image = new Image();
+    // base_image.src = 'img/instagram.png';
+    // ctx.drawImage(base_image, 0, 10,100,100);
 
 
     function drawPopup(e) {

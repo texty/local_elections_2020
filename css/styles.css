@@ -385,7 +385,7 @@ div.next {
 /*----- графіки -----*/
 #compare, #bar-chart {
   max-width: 900px;
-  margin: auto;
+  margin: auto auto 100px auto;
   width: 100%; }
 
 g.tick text {
