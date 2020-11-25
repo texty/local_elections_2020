@@ -10,8 +10,17 @@ var nIndex = 0;
 
 Promise.all([
     d3.csv("data/compare_with_parliament.csv"),
-    d3.csv("data/big_cities_data.csv")
+    d3.csv("data/big_cities_data.csv"),
+    d3.csv("data/parties_for_coalition.csv")
 ]).then(function(data){
+
+    var locale = d3.formatLocale({
+        decimal: ".",
+        thousands: " ",
+        grouping: [3]
+    });
+
+    var nFormat = locale.format(",");
 
 
     /*--- lollipop chart ---*/
@@ -83,7 +92,7 @@ Promise.all([
        xScale
             .range([0, new_width])
             //.domain([0, d3.max(filtered, function (d) { return d[max_var];  })]);
-           .domain([0,100]);
+           .domain([0,80]);
 
        yScale
             .range([0, height])
@@ -147,7 +156,7 @@ Promise.all([
             .attr("stroke-width", 3)
             .attr("data-tippy-content", function(d){
                 let vd =  Math.round(d.votes_local - d.votes_parlam);
-                let vd_content = vd < 0 ? vd + " голосів" : "+" + vd  + " голосів";
+                let vd_content = vd < 0 ? nFormat(vd) + " голосів" : "+" + nFormat(vd)  + " голосів";
 
                 return vd_content;
 
@@ -269,7 +278,7 @@ Promise.all([
             .data(filtered);
 
         bars.enter().append("rect")
-            .attr("class", "detail tip")
+            .attr("class", "detail")
             .merge(bars)
             .attr("y", function (d, i) { return detail_yScale(d.party_name) +  detail_yScale.bandwidth()/2; })
             .attr("height", detail_yScale.bandwidth() / 4 )
@@ -352,8 +361,119 @@ Promise.all([
     });
 
 
+
+    /*  графіки Петра */
+
+
+    const coaliciya_margin = {top: 40, right: 10, bottom: 30, left: 50};
+    const coaliciya_xScale = d3.scaleLinear();
+    const coaliciya_yScale = d3.scaleBand();
+
+    const coaliciya = d3.select("#coaliciya-chart")
+        .append("svg")
+        .append("g")
+        .attr("transform", "translate(50,30)");
+
+
+    data[2].forEach(function(d){
+        d.total_radas = +d.total_radas;
+    });
+
+    drawCoaliciya();
+
+    function drawCoaliciya(){
+
+
+        var new_width =  d3.select("#coaliciya-chart").node()
+                .getBoundingClientRect().width - detail_margin.left - detail_margin.right;
+
+        d3.select("#coaliciya-chart").select("svg")
+            .attr("width", new_width )
+            .attr("height", 50 * data[2].length + 30);
+
+        //Update the scales
+        coaliciya_xScale
+            .range([0, new_width - coaliciya_margin.left - coaliciya_margin.right])
+            .domain([0, d3.max(data[2], function (d) { return d.total_radas;  })]);
+
+        coaliciya_yScale
+            .range([0, 50 * data[2].length])
+            .domain(data[2].map(function (d) { return d.number_of_parties; }));
+
+
+
+        /* барчики */
+        var bars = coaliciya.selectAll(".detail")
+            .data(data[2]);
+
+        bars.enter().append("rect")
+            .attr("class", "detail")
+            .merge(bars)
+            .attr("y", function (d, i) { return coaliciya_yScale(d.number_of_parties) +  coaliciya_yScale.bandwidth()/2; })
+            .attr("height", coaliciya_yScale.bandwidth() / 4 )
+            .transition().duration(500)
+            .attr("x", 0)
+            .attr("width", function (d) { return coaliciya_xScale(d.total_radas);  })
+            .attr("fill", "rgb(236, 114, 99)");
+
+        bars.exit().remove();
+
+
+
+        /* назви партій */
+        var party_name = coaliciya.selectAll(".label")
+            .data(data[2]);
+
+        party_name
+            .enter()
+            .append("text")
+            .attr("class", "label")
+            .merge(party_name)
+            .transition().duration(0)
+            .attr("x", function(d) { return  coaliciya_xScale(0); })
+            .attr("y", function(d) { return coaliciya_yScale(d.number_of_parties)  +  coaliciya_yScale.bandwidth()/3 })
+            .attr("fill", "grey")
+            .text(function(d){ return d.number_of_parties  })
+        ;
+
+
+        party_name.exit().remove();
+
+
+        /* кількіть депутатів */
+        var dep_number = coaliciya.selectAll(".label2")
+            .data(data[2]);
+
+
+        dep_number
+            .enter()
+            .append("text")
+            .attr("class", "label2")
+            .merge(dep_number)
+            .transition().duration(0)
+            .attr("x", function(d) { return  - 40; })
+            .attr("y", function(d) { return coaliciya_yScale(d.number_of_parties)  +  coaliciya_yScale.bandwidth()/2 })
+            .text(function(d){ return d.total_radas })
+            .attr("fill", "grey");
+
+        dep_number.exit().remove();
+    }
+
+
+
+
+
+
+
+
+
+
     drawBarChart("Київська");
     drawPops("Слуга народу");
+
+
+
+
 
 
 
@@ -361,6 +481,10 @@ Promise.all([
         drawPops("Слуга народу");
         drawBarChart("Київська");
     });
+
+
+
+
 
 
     tippy('.tip', {

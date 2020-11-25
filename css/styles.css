@@ -383,7 +383,7 @@ div.next {
   right: 40%; }
 
 /*----- графіки -----*/
-#compare, #bar-chart {
+#compare, #bar-chart, #coaliciya-chart {
   max-width: 900px;
   margin: auto auto 100px auto;
   width: 100%; }
