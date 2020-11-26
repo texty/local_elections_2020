@@ -24,7 +24,7 @@ var map = new mapboxgl.Map({
     tap: false,
     attributionControl: false,
     style: 'style3.json',
-    //style:'https://raw.githubusercontent.com/texty/covid_schools_map/master/dark_matter.json',
+    //style: 'mapbox://styles/mapbox/streets-v11',
     center: [31.5, 48.9],
     preserveDrawingBuffer: true,
     zoom: default_zoom_u // starting zoom
