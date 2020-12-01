@@ -172,7 +172,7 @@ map.on('load', function () {
     //векторні тайли
     map.addSource('oblasts', {
         type: 'vector',
-        tiles: ["https://texty.github.io/local_elections_2020/tiles/oblasts_30_11/{z}/{x}/{y}.pbf"]
+        tiles: ["https://texty.github.io/local_elections_2020/tiles/oblasts/{z}/{x}/{y}.pbf"]
     });
 
     //векторні тайли
