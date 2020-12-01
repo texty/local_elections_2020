@@ -463,22 +463,8 @@ Promise.all([
     }
 
 
-
-
-
-
-
-
-
-
     drawBarChart("Київська");
     drawPops("Слуга народу");
-
-
-
-
-
-
 
     d3.select(window).on('resize', function() {
         drawPops("Слуга народу");

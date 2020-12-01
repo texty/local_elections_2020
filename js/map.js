@@ -501,7 +501,6 @@ $('#downloadLink').click(function() {
     html2canvas($("#map"), {
         onrendered: function (canvas) {
             let imageurl = canvas.toDataURL('image/png');
-            but.href =  canvas.toDataURL('image/png');
             download(imageurl, "map.png");
 
         }
