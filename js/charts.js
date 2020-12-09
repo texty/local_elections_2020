@@ -467,7 +467,8 @@ Promise.all([
     drawPops("Слуга народу");
 
     d3.select(window).on('resize', function() {
-        drawPops("Слуга народу");
+
+        drawPops(d3.select("#draw-lollipop-buttons").select(".draw-lollipop.active").attr("value"));
         drawBarChart("Київська");
         drawCoaliciya();
     });

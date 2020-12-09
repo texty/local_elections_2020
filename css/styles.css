@@ -343,7 +343,8 @@ option {
 .mapboxgl-popup-content {
   position: relative;
   font-size: 14px;
-  padding: 10px 15px; }
+  padding: 10px 15px;
+  overflow-wrap: break-word; }
 
 /*---- dropdown -----*/
 .js-example-basic-single {
@@ -421,5 +422,9 @@ g.tick line {
 
 #downloadLink:hover {
   background-color: #ed6746; }
+
+@media (max-width: 800px) {
+  .label {
+    font-size: 12px; } }
 
 /*# sourceMappingURL=styles.css.map */
