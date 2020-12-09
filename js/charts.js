@@ -469,7 +469,7 @@ Promise.all([
     d3.select(window).on('resize', function() {
 
         drawPops(d3.select("#draw-lollipop-buttons").select(".draw-lollipop.active").attr("value"));
-        drawBarChart("Київська");
+        drawBarChart(d3.select("#bars-title > span").text());
         drawCoaliciya();
     });
 
